@@ -1,28 +1,31 @@
 import os, sys
+# import typing
 import ffmpeg
 import subprocess
 import qdarkstyle
+import asyncio
 from dataclasses import dataclass
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import QRunnable, QThreadPool, QObject, pyqtSignal
+from PyQt5.QtCore import QRunnable, QThreadPool, QObject, pyqtSignal, QThread
 from PyQt5 import uic
+from tqdm import tqdm
 
 form_class = uic.loadUiType("hapconvert.ui")[0]
 # form_class = uic.loadUiType("D:\\MyJobs\\Software\\02_Project\\pythonProject\\ServerUtils\\hapconvert.ui")[0]
 
-class uiShow(QMainWindow, form_class):
+class uiShow(QMainWindow, QWidget, form_class):
     def __init__(self):
         super().__init__()
         self.dataOpt = DataOpt(1920,1080,"hap",'','')    # 데이터클래스 초기화
-        self.thread_pool = QThreadPool()
         self.setupUi(self)  # Ui 초기화
 
     # make a openfile dialog using Qt only video files
-    def fileOpen(self):
+    def slot_fileOpen(self):
+        self.init_menu()
         fname = QFileDialog.getOpenFileName(self, 'Select a video file', './', 'Video files(*.mp4 *.avi *.mkv *.mov *.webm);;All files(*)')
-        print(type(fname), fname)
+        print(fname)
 
-        if fname[0] != None:
+        if fname[0] != "":
             self.le_filepath.setText(fname[0])
             self.dataOpt.inputfilePath = fname[0]   # 데이터클래스에 저장
             try:
@@ -54,11 +57,12 @@ class uiShow(QMainWindow, form_class):
                     sample_rate = stream['sample_rate']
                     self.txt_fileinfo.append(f'Audio Codec : {audio_codec}')
                     self.txt_fileinfo.append(f'Audio Sample rate : {str(sample_rate)}')
-
-        self.statusBar().showMessage("File Opened")
+            self.statusBar().showMessage("파일정보를 확인하였습니다")
+        else:
+            self.statusBar().showMessage("파일열기 취소됨")
     
     # 체크박스 시그널
-    def getCheck(self):
+    def slot_getCheck(self):
         if self.cb_originalRes.isChecked() == False:
             self.le_width.clear()
             self.le_height.clear()
@@ -69,12 +73,12 @@ class uiShow(QMainWindow, form_class):
             self.statusBar().showMessage("원본해상도로 변환합니다.")
 
     # 변환옵션 시그널
-    def getOpt(self):
+    def slot_getOpt(self):
         self.dataOpt.cvtOpt = self.cbb_option.currentText()
         self.statusBar().showMessage("변환옵션을 설정했습니다.")
 
     # start convert to a Hap codec 
-    def fileConvert(self):
+    def slot_fileConvert(self):
         # 파일 경로 설정
         input_file = self.dataOpt.inputfilePath
         codec = self.dataOpt.cvtOpt
@@ -92,61 +96,59 @@ class uiShow(QMainWindow, form_class):
         height = self.le_height.text()
         resolution = f'{width}x{height}'
         
-        task = ConversionTask(input_file, output_file, resolution, codec, format)
-        task.progress_signal.connect(self.update_progress)
-        self.thread_pool.start(task)
-        self.statusBar().showMessage("File Converting ...")
-    
-    def update_progress(self, progress):
-        print(progress)
-        self.progressBar.setValue(progress)  # QProgressBar의 값을 업데이트
-
-# QRunnable을 사용하는 방식은 QThread를 사용하는 방식과 비슷하지만, 스레드 풀을 사용하여 스레드 생성 및 관리를 자동으로 처리하기 때문에 더 편리
-class ConversionTask(QRunnable, QObject):
-    progress_signal = pyqtSignal(int)
-    
-    def __init__(self, inputFile, outputFile, resolution, codec, format):
-        super().__init__()
-        QObject.__init__(self)
-        self.inputFile = inputFile
-        self.outputFile = outputFile
-        self.resolution = resolution
-        self.codec = codec
-        self.format = format
-
-    def run(self):
+        # 커맨드 설정
         command = [
-            'cmd', '/c',
-            'ffmpeg',
+            'ffmpeg.exe',
             '-y',
-            '-i', self.inputFile,
-            '-s', self.resolution,
-            '-c:v', self.codec,
-            '-f', self.format,
-            self.outputFile
+            '-i', input_file,
+            '-s', resolution,
+            '-c:v', codec,
+            '-f', format,
+            output_file
         ]
-        self.proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-        total_frames = None
-        # (
-        #     ffmpeg
-        #     .input(self.inputFile)
-        #     .output(self.outputFile, vcodec='hap', format='mov')
-        #     .run_async(pipe_stdout=True, pipe_stderr=True)
-        # )
-        # ffmpeg의 출력을 읽어서 변환 상태를 체크
-        while True:
-            line = self.proc.stderr.readline()
-            if not line:
-                break
-            if b'frame=' in line:
-                progress_str = line.split(b'frame=')[-1].split(b'fps=')[0].strip()
-                progress = int(progress_str)
-                if total_frames is None:  # 전체 프레임 수를 계산하여 total_frames 변수에 저장
-                    total_frames_str = line.split(b'frame=')[-1].split(b'fps=')[-1].split(b' ')[0].strip()
-                    total_frames = int(total_frames_str)
-                self.progress_signal.emit(progress / total_frames * 100)  # 백분율 값으로 계산하여 progress_signal 시그널 발생
-                print(progress, total_frames)
-            print(line.decode().strip()) # cmd 창에 출력
+        cmd = ' '.join(command)
+        print(f'[ffmpeg cmd] {cmd}')
+
+        # 알려진 예외처리
+        if " " in file:
+            self.statusBar().showMessage("파일경로 및 파일에 공백을 제거해 주세요!")
+            return
+
+        # 실행
+        asyncio.run(self.task(cmd))
+        
+    async def update_progress(self, value):
+        self.progress_bar.setValue(value)
+        QApplication.processEvents()
+        await asyncio.sleep(0.1)
+    
+    async def task(self, cmd):
+        total_line = 0
+        try:
+            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+            for line in tqdm(iter(process.stdout.readline, b'')):
+                total_line += 1
+                if b'frame=' in line:    # 인코딩 시작단계
+                    frame_line = line.split(b'\r') # \r 문자로 구분 리스트
+                    frame_line = [v for v in frame_line if v]  # 공백 제거한 리스트
+                    for i in range(len(frame_line)):
+                        total_line += i
+                        await self.update_progress(int((total_line/100)*total_line))            
+                print(f'[line] {total_line}', line.decode().strip())
+                await self.update_progress(int((total_line/100)*total_line))
+            await self.update_progress(100)
+            self.statusBar().showMessage("변환완료!")
+        except subprocess.CalledProcessError as e:
+            print(f'[Error] {e.output}')
+        except Exception as e:
+            print(f'[Error] {e}')
+
+    def init_menu(self):
+        self.le_width.clear()
+        self.le_height.clear()
+        self.progress_bar.setValue(0)
+        self.cb_originalRes.setCheckState(False)
+        QApplication.processEvents()
 
 # data class
 @dataclass
@@ -178,13 +180,9 @@ class DataOpt:
     @outputfilePath.setter
     def outputfilePath(self, value): self._outputfilePath = value
 
-
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyqt5'))
     UiShow = uiShow()
     UiShow.show()
     sys.exit(app.exec_())
-
-
