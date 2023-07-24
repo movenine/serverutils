@@ -16,8 +16,19 @@ form_class = uic.loadUiType("hapconvert.ui")[0]
 class uiShow(QMainWindow, QWidget, form_class):
     def __init__(self):
         super().__init__()
-        self.dataOpt = DataOpt(1920,1080,"hap",'','')    # 데이터클래스 초기화
+        self.dataOpt = DataOpt(
+            '',
+            '',
+            1920,
+            1080,
+            "hap",
+            True,
+            '',
+            ''
+            )    # 데이터클래스 초기화
         self.setupUi(self)  # Ui 초기화
+        n_cores = os.cpu_count()
+        self.lb_cpunumber.setText(f'({str(n_cores)} of CPU Cores)')
 
     # make a openfile dialog using Qt only video files
     def slot_fileOpen(self):
@@ -42,13 +53,16 @@ class uiShow(QMainWindow, QWidget, form_class):
                     res_height = stream['height']
                     duration = file_meta['format']['duration']
                     bitrate = stream['bit_rate']
+                    bitrate = format(bitrate, ',')
                     file_size = int(int(bitrate) * float(duration) / 8.0)
+                    file_size = format(file_size, ',')
 
                     # save data
                     self.dataOpt.width = res_width
                     self.dataOpt.height = res_height
 
                     self.txt_fileinfo.setText(f'Video Codec : {video_codec}')
+                    self.txt_fileinfo.append(f'bit_rate : {str(bitrate)}')
                     self.txt_fileinfo.append(f'Resolution : {str(res_width)} x {str(res_height)}')
                     self.txt_fileinfo.append(f'Duration : {str(duration)} (sec)')
                     self.txt_fileinfo.append(f'File Size : {str(file_size)} bytes')
@@ -61,6 +75,10 @@ class uiShow(QMainWindow, QWidget, form_class):
         else:
             self.statusBar().showMessage("파일열기 취소됨")
     
+    # make a savefile dialog using Qt only video files
+    def slot_fileSave(self):
+        return
+
     # 체크박스 시그널
     def slot_getCheck(self):
         if self.cb_originalRes.isChecked() == False:
@@ -71,11 +89,28 @@ class uiShow(QMainWindow, QWidget, form_class):
             self.le_width.setText(str(self.dataOpt.width))
             self.le_height.setText(str(self.dataOpt.height))
             self.statusBar().showMessage("원본해상도로 변환합니다.")
+    
+    def slot_scaleOptCheck(self):
+        if self.cb_scaleEnable.isChecked() == False:
+            self.cb_aspertRatio.setEnabled(False)
+            self.cbb_algorithm.setEnabled(False)
+        else:
+            self.cb_aspertRatio.setEnabled(True)
+            self.cbb_algorithm.setEnabled(True)
+            self.cb_originalRes.setChecked(False)
+            self.cb_originalRes.setEnabled(False)
 
-    # 변환옵션 시그널
+    def slot_fixedRatioCheck(self):
+        return
+
+    # 콤보박스 시그널
     def slot_getOpt(self):
         self.dataOpt.cvtOpt = self.cbb_option.currentText()
-        self.statusBar().showMessage("변환옵션을 설정했습니다.")
+        self.statusBar().showMessage(f'설정된 코덱 : {self.dataOpt.cvtOpt}')
+    
+    def slot_getAlgoOpt(self):
+        return
+
 
     # start convert to a Hap codec 
     def slot_fileConvert(self):
@@ -87,6 +122,8 @@ class uiShow(QMainWindow, QWidget, form_class):
         output_file = f'{dir}/[{codec}]{file}.{format}'
         print(output_file)
 
+        # 아웃풋 파일이 있을 경우 예외처리 (덮어쓰기, 이름바꾸기)
+
         # 해상도 설정
         if self.le_width.text() is None:
             self.statusBar().showMessage("가로해상도와 세로해상도를 입력하세요!")
@@ -95,8 +132,12 @@ class uiShow(QMainWindow, QWidget, form_class):
         width = self.le_width.text()
         height = self.le_height.text()
         resolution = f'{width}x{height}'
-        
+
+        # Bit rate 설정
+
+
         # 커맨드 설정
+        # 옵션 적용여부에 따라 커맨드 조합을 나눌것 20230707
         command = [
             'ffmpeg.exe',
             '-y',
@@ -153,12 +194,23 @@ class uiShow(QMainWindow, QWidget, form_class):
 # data class
 @dataclass
 class DataOpt:
+    inputfilePath : str
+    outputfilePath : str
     width: int
     height: int
     cvtOpt: str
-    inputfilePath : str
-    outputfilePath : str
+    originalRes: bool
+    multiCPU: str
+    scaleAlgo: str
     
+    @property
+    def inputfilePath(self): return self._inputfilePath
+    @inputfilePath.setter
+    def inputfilePath(self, value): self._inputfilePath = value
+    @property
+    def outputfilePath(self): return self._outputfilePath
+    @outputfilePath.setter
+    def outputfilePath(self, value): self._outputfilePath = value
     @property
     def width(self): return self._width
     @width.setter
@@ -172,17 +224,21 @@ class DataOpt:
     @cvtOpt.setter
     def cvtOpt(self, value): self._cvtOpt = value
     @property
-    def inputfilePath(self): return self._inputfilePath
-    @inputfilePath.setter
-    def inputfilePath(self, value): self._inputfilePath = value
+    def originalRes(self): return self._originalRes
+    @originalRes.setter
+    def originalRes(self, value): self._originalRes = value
     @property
-    def outputfilePath(self): return self._outputfilePath
-    @outputfilePath.setter
-    def outputfilePath(self, value): self._outputfilePath = value
+    def multiCPU(self): return self._multiCPU
+    @multiCPU.setter
+    def multiCPU(self, value): self._multiCPU = value
+    @property
+    def scaleAlgo(self): return self._scaleAlgo
+    @scaleAlgo.setter
+    def scaleAlgo(self, value): self._scaleAlgo = value
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    app.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyqt5'))
-    UiShow = uiShow()
-    UiShow.show()
-    sys.exit(app.exec_())
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     app.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyqt5'))
+#     UiShow = uiShow()
+#     UiShow.show()
+#     sys.exit(app.exec_())

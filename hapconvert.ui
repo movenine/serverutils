@@ -6,66 +6,95 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
-    <height>495</height>
+    <width>536</width>
+    <height>606</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>08서울남산체 M</family>
+   </font>
+  </property>
   <property name="windowTitle">
-   <string>HAP Convert</string>
+   <string>HAP 코덱변환기</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
-     <widget class="QPushButton" name="bt_open">
+    <item row="1" column="0">
+     <widget class="QPushButton" name="pushButton">
       <property name="font">
        <font>
-        <family>08서울남산체 B</family>
+        <family>Yu Gothic</family>
         <pointsize>10</pointsize>
        </font>
       </property>
       <property name="text">
-       <string>Open</string>
+       <string>저장위치</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="le_filepath">
+    <item row="3" column="0" colspan="3">
+     <spacer name="horizontalSpacer">
       <property name="font">
        <font>
-        <family>08서울남산체 B</family>
+        <family>08서울남산체 M</family>
         <pointsize>10</pointsize>
        </font>
       </property>
-     </widget>
-    </item>
-    <item row="1" column="0" colspan="2">
-     <widget class="QTextEdit" name="txt_fileinfo">
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-       </font>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-     </widget>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
-    <item row="2" column="0" colspan="2">
-     <widget class="QGroupBox" name="groupBox">
+    <item row="4" column="0" colspan="3">
+     <widget class="QGroupBox" name="groupBox_format">
       <property name="font">
        <font>
-        <family>08서울남산체 B</family>
+        <family>Yu Gothic</family>
         <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="title">
-       <string>설정</string>
+       <string>포맷 변환 옵션</string>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="3">
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="lineEdit">
+         <property name="font">
+          <font>
+           <family>Yu Gothic</family>
+           <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CPU 코어 갯수 보다 작게 입력하세요 (기본 : 4~6)&lt;/p&gt;&lt;p&gt;특정 재생하드웨어의 FFmpeg Player에 대한 최적화 옵션&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="statusTip">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
         <widget class="QLabel" name="lb_height">
          <property name="font">
           <font>
            <family>08서울남산체 B</family>
            <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="text">
@@ -73,26 +102,33 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="le_width">
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_4">
          <property name="font">
           <font>
-           <family>08서울남산체 B</family>
+           <family>Yu Gothic</family>
            <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="text">
+          <string>멀티 코어 적용</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="4">
+       <item row="2" column="5">
         <widget class="QComboBox" name="cbb_option">
          <property name="font">
           <font>
            <family>08서울남산체 B</family>
            <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
-         </property>
-         <property name="placeholderText">
-          <string/>
          </property>
          <property name="modelColumn">
           <number>0</number>
@@ -114,29 +150,42 @@
          </item>
         </widget>
        </item>
-       <item row="1" column="3">
-        <widget class="QLabel" name="label">
+       <item row="6" column="0" colspan="2">
+        <widget class="QCheckBox" name="cb_scaleEnable">
          <property name="font">
           <font>
-           <family>08서울남산체 B</family>
+           <family>Yu Gothic</family>
            <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
+         <property name="toolTip">
+          <string>스케일 변환할 해상도를 기입하고, 아래 Scale 옵션을 추가/선택하세요</string>
+         </property>
+         <property name="statusTip">
+          <string/>
+         </property>
          <property name="text">
-          <string>변환옵션</string>
+          <string>Scale 옵션 활성화 </string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QCheckBox" name="cb_originalRes">
+       <item row="3" column="2" colspan="4">
+        <widget class="QLabel" name="lb_cpunumber">
          <property name="font">
           <font>
-           <family>08서울남산체 B</family>
+           <family>Yu Gothic</family>
            <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="text">
-          <string>원본해상도</string>
+          <string>(N of CPU Core)</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
@@ -146,6 +195,8 @@
           <font>
            <family>08서울남산체 B</family>
            <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="text">
@@ -153,28 +204,294 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="4">
+       <item row="0" column="5">
         <widget class="QLineEdit" name="le_height">
          <property name="font">
           <font>
            <family>08서울남산체 B</family>
            <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
+       <item row="0" column="3">
         <widget class="QLabel" name="lb_giho">
+         <property name="font">
+          <font>
+           <family>Yu Gothic</family>
+           <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>x</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <family>08서울남산체 B</family>
+           <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>코덱</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="le_width">
+         <property name="font">
+          <font>
+           <family>08서울남산체 B</family>
+           <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="cb_originalRes">
+         <property name="font">
+          <font>
+           <family>08서울남산체 B</family>
+           <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>원본해상도</string>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
     </item>
-    <item row="4" column="0" colspan="2">
-     <widget class="QProgressBar" name="progressBar">
+    <item row="9" column="0" colspan="3">
+     <widget class="QPushButton" name="bt_convert">
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>변환시 다른 작업이 느려질 수 있습니다. 중지한 후에 시작하세요.</string>
+      </property>
+      <property name="statusTip">
+       <string/>
+      </property>
+      <property name="text">
+       <string>변환</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="3">
+     <widget class="QTextEdit" name="txt_fileinfo">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_2">
+      <property name="font">
+       <font>
+        <family>08서울남산체 M</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QLineEdit" name="le_filepath">
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>08서울남산체 M</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Add Script</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0" colspan="3">
+     <widget class="QGroupBox" name="groupBox_Scale">
+      <property name="font">
+       <font>
+        <family>Yu Gothic</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Scale 옵션</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="2">
+        <widget class="QComboBox" name="cbb_algorithm">
+         <property name="font">
+          <font>
+           <family>Yu Gothic</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;FFmpeg Scaler 알고리즘&lt;/p&gt;&lt;p&gt;도움말 -&amp;gt; FFmpeg Documents를 참조하세요&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="currentText">
+          <string>lanczos</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>lanczos</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>neighbor</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>experimental</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>area</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>spline</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>fast_bilinear</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>bilinear</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>bicubic</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>gauss</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>sinc</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>bicublin</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="cb_aspertRatio">
+         <property name="font">
+          <font>
+           <family>Yu Gothic</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;종횡비 고정을 체크하면, 가로해상도만 입력할 수 있으며 이는 너비를 비율에 따라 출력의 높이를 자동계산합니다. (**Hap 코덱은 너비와 높이의 크기가 4의배수이어야 함)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>종횡비 고정</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_3">
+         <property name="font">
+          <font>
+           <family>Yu Gothic</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Scale 알고리즘</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QPushButton" name="bt_open">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Yu Gothic</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>열기</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0" colspan="3">
+     <widget class="QProgressBar" name="progress_bar">
       <property name="font">
        <font>
         <family>08서울남산체 B</family>
@@ -184,18 +501,44 @@
       <property name="value">
        <number>0</number>
       </property>
+      <property name="textVisible">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
-    <item row="3" column="0" colspan="2">
-     <widget class="QPushButton" name="bt_convert">
+    <item row="8" column="0" colspan="3">
+     <widget class="QLineEdit" name="le_userScript">
       <property name="font">
        <font>
-        <family>08서울남산체 B</family>
+        <family>08SeoulNamsan</family>
         <pointsize>10</pointsize>
        </font>
       </property>
+      <property name="toolTip">
+       <string>추가 변환옵션을 적용</string>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="2">
+     <widget class="QLabel" name="lb_link">
+      <property name="font">
+       <font>
+        <family>08SeoulNamsan</family>
+        <pointsize>10</pointsize>
+        <underline>false</underline>
+       </font>
+      </property>
       <property name="text">
-       <string>변환</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.ffmpeg.org/documentation.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg Documents&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -206,20 +549,65 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>520</width>
+     <width>536</width>
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>도움말</string>
+    </property>
+    <addaction name="actionFFmpeg"/>
+    <addaction name="action"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>파일</string>
+    </property>
+    <addaction name="actionImport"/>
+    <addaction name="actionExport"/>
+   </widget>
+   <addaction name="menu_2"/>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionFFmpeg">
+   <property name="text">
+    <string>FFmpeg Documents</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>사용문의</string>
+   </property>
+  </action>
+  <action name="actionImport">
+   <property name="text">
+    <string>Import</string>
+   </property>
+  </action>
+  <action name="actionExport">
+   <property name="text">
+    <string>Export</string>
+   </property>
+  </action>
  </widget>
+ <tabstops>
+  <tabstop>bt_open</tabstop>
+  <tabstop>le_filepath</tabstop>
+  <tabstop>txt_fileinfo</tabstop>
+  <tabstop>le_height</tabstop>
+  <tabstop>cb_originalRes</tabstop>
+  <tabstop>cbb_option</tabstop>
+  <tabstop>bt_convert</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
    <sender>bt_open</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>fileOpen()</slot>
+   <slot>slot_fileOpen()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>43</x>
@@ -235,11 +623,11 @@
    <sender>bt_convert</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>fileConvert()</slot>
+   <slot>slot_fileConvert()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>432</x>
-     <y>429</y>
+     <x>450</x>
+     <y>549</y>
     </hint>
     <hint type="destinationlabel">
      <x>441</x>
@@ -251,11 +639,11 @@
    <sender>cb_originalRes</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>getCheck()</slot>
+   <slot>slot_getCheck()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>57</x>
-     <y>392</y>
+     <x>100</x>
+     <y>339</y>
     </hint>
     <hint type="destinationlabel">
      <x>7</x>
@@ -267,23 +655,92 @@
    <sender>cbb_option</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>MainWindow</receiver>
-   <slot>getOpt()</slot>
+   <slot>slot_getOpt()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>396</x>
-     <y>390</y>
+     <x>516</x>
+     <y>341</y>
     </hint>
     <hint type="destinationlabel">
-     <x>514</x>
-     <y>389</y>
+     <x>497</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cb_scaleEnable</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>slot_scaleOptCheck()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>398</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cb_aspertRatio</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>slot_fixedRatioCheck()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>91</x>
+     <y>463</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>7</x>
+     <y>452</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbb_algorithm</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>slot_getAlgoOpt()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>516</x>
+     <y>464</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>529</x>
+     <y>452</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>slot_fileSave()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>119</x>
+     <y>74</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>123</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>fileOpen()</slot>
-  <slot>fileConvert()</slot>
-  <slot>getCheck()</slot>
-  <slot>getOpt()</slot>
+  <slot>slot_fileOpen()</slot>
+  <slot>slot_fileConvert()</slot>
+  <slot>slot_getCheck()</slot>
+  <slot>slot_getOpt()</slot>
+  <slot>slot_scaleOptCheck()</slot>
+  <slot>slot_fixedRatioCheck()</slot>
+  <slot>slot_getAlgoOpt()</slot>
+  <slot>slot_openLink()</slot>
+  <slot>slot_fileSave()</slot>
  </slots>
 </ui>
