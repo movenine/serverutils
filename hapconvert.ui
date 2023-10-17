@@ -318,6 +318,14 @@
         <pointsize>10</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius : 5px;
+border: 2px solid grey;
+text-align: center;</string>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
       <property name="value">
        <number>0</number>
       </property>

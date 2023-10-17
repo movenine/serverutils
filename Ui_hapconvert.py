@@ -157,6 +157,10 @@ class Ui_MainWindow(object):
         font.setFamily("08서울남산체 B")
         font.setPointSize(10)
         self.progress_bar.setFont(font)
+        self.progress_bar.setStyleSheet("border-radius : 5px;\n"
+"border: 2px solid grey;\n"
+"text-align: center;")
+        self.progress_bar.setMinimum(0)
         self.progress_bar.setProperty("value", 0)
         self.progress_bar.setTextVisible(True)
         self.progress_bar.setObjectName("progress_bar")

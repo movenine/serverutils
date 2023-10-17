@@ -77,6 +77,7 @@ def main(image):
     app = QtWidgets.QApplication(sys.argv)
     QtWidgets.QApplication.setQuitOnLastWindowClosed(False) # tray 아이템을 종료시 app 종료를 하지 않음
     #app.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyqt5'))
+    qdarktheme.setup_theme(theme="auto", corner_shape="sharp")
     app.setStyleSheet(qdarktheme.load_stylesheet())
     w = QtWidgets.QWidget()
     tray_icon = SystemTrayIcon(QtGui.QIcon(image), w)

@@ -165,6 +165,8 @@ class uiShow(QMainWindow, QWidget, form_class):
                 #save data
                 self.dataOpt.ori_width = fileinfo['res_width']
                 self.dataOpt.ori_height = fileinfo['res_height']
+                self.dataOpt.frameRate = float(fileinfo["frame"])
+                self.dataOpt.duration = float(fileinfo["duration"])
 
                 #set textbox
                 self.txt_fileinfo.append(f'Video Codec : {fileinfo["video_codec"]}')
@@ -259,6 +261,10 @@ class uiShow(QMainWindow, QWidget, form_class):
             self.txt_fileinfo.append(f'')
             self.txt_fileinfo.append(f'변환파일위치 : {output_file}')
             self.mCvtLog.info(output_file)
+
+        # 진행률 설정
+        self.progress_bar.setMaximum(self.dataOpt.getMaxFrame())
+        print(f'Progress bar maximum : {self.dataOpt.getMaxFrame()}')
 
         # 커맨드 설정
         command = self.dataOpt.ffmpegCmd()
@@ -395,14 +401,14 @@ class uiShow(QMainWindow, QWidget, form_class):
         )
         self.mCvtLog.info(f'Previewer return : {result}')
 
-    async def update_progress(self) -> None:
-        while True:
-            value = self.subProc.progress
-            self.progress_bar.setValue(int((value/100)*value))
-            QApplication.processEvents()
-            await asyncio.sleep(0.01)
-            if value == 100 or self.subProc.run == False:
-                break
+    # async def update_progress(self) -> None:
+    #     while True:
+    #         value = self.subProc.progress
+    #         self.progress_bar.setValue(int((value/100)*value))
+    #         QApplication.processEvents()
+    #         await asyncio.sleep(0.01)
+    #         if value == 100 or self.subProc.run == False:
+    #             break
     
     async def update_message(self) -> None:
         msgs = ['변환중.','변환중..','변환중...','변환중....','변환중.....','변환중......']
@@ -411,16 +417,16 @@ class uiShow(QMainWindow, QWidget, form_class):
             if idx > 5: idx = 0
             self.statusBar().showMessage(msgs[idx])
             QApplication.processEvents()
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.4)
             idx += 1
             if self.subProc.run == False:
                 break
 
     async def update_progress_value(self, value) -> None:
         self.subProc.progress = value
-        self.progress_bar.setValue(int((value/100)*value))
+        self.progress_bar.setValue(value)
         QApplication.processEvents()
-        await asyncio.sleep(0.02)
+        await asyncio.sleep(0.01)
     
     async def Convert(self, cmd):
         total_line = 0
@@ -435,16 +441,26 @@ class uiShow(QMainWindow, QWidget, form_class):
             self.subProc.run = True
             log = b''
             while proc.returncode is None:
-                buf = await proc.stdout.read(50)
+                buf = await proc.stdout.read(100)
                 if not buf:
                     break
                 else:
-                    total_line += 1
+                    if 'frame' in buf.decode():
+                        frame = buf.decode().split(' ')
+                        frame = [v for v in frame if v]
+                        print(int(frame[1]))
+                        if frame[0] == 'frame=':
+                            total_line = int(frame[1])
+                            log = buf
+                    elif 'failed' in buf.decode():
+                        raise Exception(f'변환실패-{buf.decode()}')
+                    else:
+                        total_line += 1
                     # self.progress_bar.setValue(int((total_line/100)*total_line))
                     await self.update_progress_value(total_line)
-                log += buf
+                # log += buf
                 # sys.stdout.write(buf.decode())
-                print(f'[{total_line}]')
+                print(f'[{total_line}] [{buf.decode()}]')
             result = subprocess.CompletedProcess(cmd, proc.returncode, stdout=log, stderr=b'')
         except subprocess.CalledProcessError as e:
             self.subProc.run = False
@@ -459,7 +475,7 @@ class uiShow(QMainWindow, QWidget, form_class):
             self.subProc.run = False
             self.statusBar().showMessage("변환완료!")
             self.subProc.returnCode = proc.returncode    # 정상종료시 '0'
-            await self.update_progress_value(100)
+            await self.update_progress_value(self.dataOpt.getMaxFrame())
             return result
 
     #endregion 코루틴
@@ -511,6 +527,8 @@ class DataOpt:
     scaleRatio: bool
     scaleAlgo: str
     usrScript: str
+    frameRate: float
+    duration: float
         
     @property
     def inputfilePath(self): return self._inputfilePath
@@ -572,6 +590,17 @@ class DataOpt:
     @usrScript.setter
     def usrScript(self, value): self._usrScript = value
 
+    @property
+    def frameRate(self): return self._frameRate
+    @frameRate.setter
+    def frameRate(self, value): self._frameRate = value
+
+    @property
+    def duration(self): return self._duration
+    @duration.setter
+    def duration(self, value): self._duration = value
+
+
     def ffmpegCmd(self):
         command = ['ffmpeg.exe', '-y', '-i', self.inputfilePath]
         # 코덱 및 포맷 설정
@@ -609,6 +638,10 @@ class DataOpt:
 
     def ori_resolution(self):
         return f'{self.ori_width}:{self.ori_height}'
+    
+    def getMaxFrame(self):
+        return int(self.frameRate*self.duration)
+    
 #endregion 데이터클래스
 
 # if __name__ == '__main__':
