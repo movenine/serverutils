@@ -6,3 +6,4 @@ from PyQt5.QtCore import QRunnable, QThreadPool, QObject, pyqtSignal, QThread
 from PyQt5 import uic
 
 form_class = uic.loadUiType("mosaicConfig.ui")[0]
+
