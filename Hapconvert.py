@@ -1,4 +1,4 @@
-import os, sys, ffmpeg, subprocess, asyncio, shlex
+import os, sys, ffmpeg, subprocess, asyncio, shlex, json
 from dataclasses import dataclass
 from PyQt5.QtWidgets import *
 # from PyQt5.QtCore import *
@@ -11,6 +11,7 @@ form_class = uic.loadUiType("hapconvert.ui")[0]
 # form_class = uic.loadUiType("D:\\MyJobs\\Software\\02_Project\\pythonProject\\ServerUtils\\hapconvert.ui")[0]
 log_file_path = f'{os.getcwd()}\\log\\hapConvertLog.log'
 app_title_icon_path = f'{os.getcwd()}\\resources\\app_title_icon.png'
+save_file_path = f'{os.getcwd()}\\Files'
 
 class uiShow(QMainWindow, QWidget, form_class):
     def __init__(self):
@@ -28,7 +29,9 @@ class uiShow(QMainWindow, QWidget, form_class):
             multiCPU=6,
             scaleRatio=False,
             scaleAlgo='',
-            usrScript=''
+            usrScript='',
+            frameRate=0,
+            duration=0
             )
         self.subProc = subProcCheck(
             pid=0,
@@ -104,6 +107,23 @@ class uiShow(QMainWindow, QWidget, form_class):
 
     ## 설정 내보내기 이벤트 콜백
     def saveExport(self):
+        try:
+            fname = QFileDialog.getSaveFileName(self, 'Export a option file', save_file_path, 'Option files(*.opt);;All files(*)')
+            print(fname)
+
+            if fname[0] != "":
+                fileData = self.dataOpt.getOptDict()
+                serial_fileData = json.dumps(fileData, indent=10)
+                # 옵션 파일 쓰기
+                with open(fname[0], "w") as outfile:
+                    outfile.write(serial_fileData)
+                
+                dir, file = os.path.split(fname[0])
+                self.statusBar().showMessage(f'{dir}/{file}.opt 옵션파일 저장')
+            else:
+                self.statusBar().showMessage("옵션파일저장 취소")
+        except Exception as e:
+            self.mCvtLog.error(e)
         return
 
     #region private method
@@ -154,9 +174,13 @@ class uiShow(QMainWindow, QWidget, form_class):
             try:
                 fileinfo = self.func_fileinfo(fname[0])
                 dir, file = os.path.split(fname[0])
+                fileCheck = file.split('.')
 
                 if " " in file or " " in dir:
-                    result = QMessageBox.warning(self, "주의", "파일경로 및 파일제목에 공백은 제거해주세요", QMessageBox.Ok)
+                    result = QMessageBox.warning(self, "주의", "파일경로 및 파일명에 공백은 제거해주세요", QMessageBox.Ok)
+                    return
+                elif len(fileCheck) > 2:
+                    result = QMessageBox.warning(self, "주의", "파일명에 확장자명은 하나만 지정해주세요", QMessageBox.Ok)
                     return
                 else:
                     result = QMessageBox.No
@@ -182,9 +206,9 @@ class uiShow(QMainWindow, QWidget, form_class):
                 self.txt_fileinfo.setText(e.stderr)
                 self.mCvtLog.error(e.stderr)
                 #sys.exit(1)
-            else:
+            finally:
                 if result == QMessageBox.Ok:
-                    self.mCvtLog.warning(f'파일경로 및 파일제목에 공백발생')
+                    self.mCvtLog.warning(f'파일경로 및 파일명 오류')
                     self.le_fileInputPath.clear()
                 pass
         else:
@@ -641,6 +665,21 @@ class DataOpt:
     
     def getMaxFrame(self):
         return int(self.frameRate*self.duration)
+
+    def getOptDict(self):
+        dic = dict()
+        dic['width'] = self.width
+        dic['ori_width'] = self.ori_width
+        dic['height'] = self.height
+        dic['ori_height'] = self.ori_height
+        dic['cvtOpt'] = self.cvtOpt
+        dic['originalRes'] = self.originalRes
+        dic['multiCPU'] = self.multiCPU
+        dic['scaleRatio'] = self.scaleRatio
+        dic['scaleAlgo'] = self.scaleAlgo
+        dic['usrScript'] = self.usrScript
+        return dic
+
     
 #endregion 데이터클래스
 
