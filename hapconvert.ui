@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>553</width>
-    <height>651</height>
+    <height>655</height>
    </rect>
   </property>
   <property name="font">
@@ -23,336 +23,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="1" column="0">
-     <widget class="QPushButton" name="bt_save">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>파일 저장</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="3">
-     <widget class="QLabel" name="lb_link">
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-        <underline>false</underline>
-       </font>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.ffmpeg.org/documentation.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg Documents&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-      <property name="openExternalLinks">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3" rowspan="2">
-     <widget class="QPushButton" name="bt_preViewer">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00000f;&quot;&gt;지정된 경로의 영상 파일을 재생합니다.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="text">
-       <string>미리보기</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1" colspan="2">
-     <widget class="QLineEdit" name="le_fileInputPath">
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-      <property name="clearButtonEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0" colspan="4">
-     <widget class="QTextEdit" name="txt_fileinfo">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Add Script</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1" colspan="2">
-     <widget class="QLineEdit" name="le_fileSavePath">
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-      <property name="clearButtonEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0" colspan="4">
-     <widget class="QGroupBox" name="groupBox_Scale">
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="title">
-       <string>Scale 옵션</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="2">
-        <widget class="QComboBox" name="cbb_algorithm">
-         <property name="font">
-          <font>
-           <family>08서울남산체 B</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00000f;&quot;&gt;FFmpeg Scaler 알고리즘&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#00000f;&quot;&gt;도움말 -&amp;gt; FFmpeg Documents를 참조하세요&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="currentText">
-          <string>lanczos</string>
-         </property>
-         <item>
-          <property name="text">
-           <string>lanczos</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>neighbor</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>experimental</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>area</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>spline</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>fast_bilinear</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>bilinear</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>bicubic</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>gauss</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>sinc</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>bicublin</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="cb_aspertRatio">
-         <property name="font">
-          <font>
-           <family>08서울남산체 B</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00000f;&quot;&gt;종횡비 고정을 체크하면, 가로해상도만 입력할 수 있으며 이는 너비를 비율에 따라 출력의 높이를 자동계산합니다. (**Hap 코덱은 너비와 높이의 크기가 4의배수이어야 함으로 '-4'로 고정됩니다.)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>종횡비 고정</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_3">
-         <property name="font">
-          <font>
-           <family>08서울남산체 B</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Scale 알고리즘</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="3" column="0" colspan="4">
-     <spacer name="horizontalSpacer">
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="10" column="0" colspan="4">
-     <widget class="QPushButton" name="bt_convert">
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00007f;&quot;&gt;변환 작업시 CPU의 부하가 증가하여 다른 프로세스 작업이 느려질 수 있습니다. 잠시 중지한 후에 시작하세요.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="statusTip">
-       <string/>
-      </property>
-      <property name="text">
-       <string>변환</string>
-      </property>
-     </widget>
-    </item>
-    <item row="11" column="0" colspan="4">
-     <widget class="QProgressBar" name="progress_bar">
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border-radius : 5px;
-border: 2px solid grey;
-text-align: center;</string>
-      </property>
-      <property name="minimum">
-       <number>0</number>
-      </property>
-      <property name="value">
-       <number>0</number>
-      </property>
-      <property name="textVisible">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QPushButton" name="bt_open">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>08서울남산체 B</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>파일 열기</string>
-      </property>
-     </widget>
-    </item>
     <item row="4" column="0" colspan="4">
      <widget class="QGroupBox" name="groupBox_format">
       <property name="font">
@@ -615,6 +285,331 @@ p, li { white-space: pre-wrap; }
       </layout>
      </widget>
     </item>
+    <item row="9" column="0" colspan="4">
+     <widget class="Line" name="line_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="4">
+     <widget class="QTextEdit" name="txt_fileinfo">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="3">
+     <widget class="QLabel" name="lb_link">
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+        <underline>false</underline>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.ffmpeg.org/documentation.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg Documents&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="4">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QLineEdit" name="le_fileInputPath">
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0" colspan="4">
+     <widget class="QGroupBox" name="groupBox_Scale">
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Scale 옵션</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="2">
+        <widget class="QComboBox" name="cbb_algorithm">
+         <property name="font">
+          <font>
+           <family>08서울남산체 B</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00000f;&quot;&gt;FFmpeg Scaler 알고리즘&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#00000f;&quot;&gt;도움말 -&amp;gt; FFmpeg Documents를 참조하세요&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="currentText">
+          <string>lanczos</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>lanczos</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>neighbor</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>experimental</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>area</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>spline</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>fast_bilinear</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>bilinear</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>bicubic</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>gauss</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>sinc</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>bicublin</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="cb_aspertRatio">
+         <property name="font">
+          <font>
+           <family>08서울남산체 B</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00000f;&quot;&gt;종횡비 고정을 체크하면, 가로해상도만 입력할 수 있으며 이는 너비를 비율에 따라 출력의 높이를 자동계산합니다. (**Hap 코덱은 너비와 높이의 크기가 4의배수이어야 함으로 '-4'로 고정됩니다.)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>종횡비 고정</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_3">
+         <property name="font">
+          <font>
+           <family>08서울남산체 B</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Scale 알고리즘</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QPushButton" name="bt_open">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>파일 열기</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0" colspan="4">
+     <widget class="QPushButton" name="bt_convert">
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00007f;&quot;&gt;변환 작업시 CPU의 부하가 증가하여 다른 프로세스 작업이 느려질 수 있습니다. 잠시 중지한 후에 시작하세요.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="statusTip">
+       <string/>
+      </property>
+      <property name="text">
+       <string>변환</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="bt_save">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>파일 저장</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0" colspan="4">
+     <widget class="QProgressBar" name="progress_bar">
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius : 5px;
+border: 2px solid grey;
+text-align: center;</string>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+      <property name="textVisible">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Add Script</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QLineEdit" name="le_fileSavePath">
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3" rowspan="2">
+     <widget class="QPushButton" name="bt_preViewer">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>08서울남산체 B</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00000f;&quot;&gt;지정된 경로의 영상 파일을 재생합니다.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>미리보기</string>
+      </property>
+     </widget>
+    </item>
     <item row="8" column="0" colspan="4">
      <widget class="QLineEdit" name="le_userScript">
       <property name="sizePolicy">
@@ -639,19 +634,6 @@ p, li { white-space: pre-wrap; }
        <bool>true</bool>
       </property>
      </widget>
-    </item>
-    <item row="9" column="0" colspan="4">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
     </item>
    </layout>
   </widget>

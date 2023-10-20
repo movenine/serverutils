@@ -1,0 +1,13 @@
+{
+           "width": "2560",
+           "ori_width": 0,
+           "height": "1440",
+           "ori_height": 0,
+           "cvtOpt": "hap",
+           "originalRes": false,
+           "multiCPU": 6,
+           "scaleEnable": true,
+           "scaleRatio": false,
+           "scaleAlgo": "",
+           "usrScript": ""
+}

@@ -1,5 +1,6 @@
 import os, sys, ffmpeg, subprocess, asyncio, shlex, json
 from dataclasses import dataclass
+from dacite import from_dict
 from PyQt5.QtWidgets import *
 # from PyQt5.QtCore import *
 from PyQt5 import uic, QtGui, QtCore
@@ -27,6 +28,7 @@ class uiShow(QMainWindow, QWidget, form_class):
             cvtOpt="hap",
             originalRes=False,
             multiCPU=6,
+            scaleEnable=False,
             scaleRatio=False,
             scaleAlgo='',
             usrScript='',
@@ -103,7 +105,50 @@ class uiShow(QMainWindow, QWidget, form_class):
 
     ## 설정 가져오기 이벤트 콜백
     def getImport(self):
-        return
+        try:
+            fname = QFileDialog.getOpenFileName(self, 'Import a option file', save_file_path, 'Option files(*.opt);;All files(*)')
+            print(fname)
+            
+            if fname[0] != "":
+                with open(fname[0], "r") as openfile:
+                    load_file = json.load(openfile) # De-serialization json file and convert dict <type:dict>
+                print(load_file)
+
+                to_dataOpt = from_dict(data_class=DataOpt, data=load_file)  # set class variable from dict
+                self.dataOpt = to_dataOpt   # 커맨드 실행을 위한 variable 동기화
+                
+                # text box 설정
+                if to_dataOpt.originalRes:
+                    self.le_width.setText(str(to_dataOpt.ori_width))
+                    self.le_height.setText(str(to_dataOpt.ori_height))
+                elif to_dataOpt.scaleRatio:
+                    self.le_height.clear()
+                    self.le_height.setEnabled(False)
+                else:
+                    self.le_width.setText(str(to_dataOpt.width))
+                    self.le_height.setText(str(to_dataOpt.height))
+
+                self.le_multicpu.setText(str(to_dataOpt.multiCPU))
+                self.le_userScript.setText(to_dataOpt.usrScript)
+                # combo box 설정
+                self.cbb_option.setCurrentText(to_dataOpt.cvtOpt)
+                self.cbb_algorithm.setCurrentText(to_dataOpt.scaleAlgo)
+                # check box 설정
+                self.cb_scaleEnable.setEnabled(to_dataOpt.scaleEnable)
+                self.cb_scaleEnable.setChecked(to_dataOpt.scaleEnable)
+                self.cb_originalRes.setEnabled(to_dataOpt.originalRes)
+                self.cb_originalRes.setChecked(to_dataOpt.originalRes)
+                self.cb_aspertRatio.setEnabled(to_dataOpt.scaleRatio)
+                self.cb_aspertRatio.setChecked(to_dataOpt.scaleRatio)
+            else:
+                self.statusBar().showMessage("옵션파일 불러오기 취소")
+                return
+        except Exception as e:
+            self.mCvtLog.error(e)
+        else:
+            dir, file = os.path.split(fname[0])
+            self.statusBar().showMessage(f'{dir}/{file}.opt 옵션파일 불러오기')
+            self.mCvtLog.info(f'{dir}/{file}.opt 옵션파일 불러오기')
 
     ## 설정 내보내기 이벤트 콜백
     def saveExport(self):
@@ -112,19 +157,20 @@ class uiShow(QMainWindow, QWidget, form_class):
             print(fname)
 
             if fname[0] != "":
-                fileData = self.dataOpt.getOptDict()
-                serial_fileData = json.dumps(fileData, indent=10)
+                fileData = self.dataOpt.getOptDict()    # get dictionary
+                serial_fileData = json.dumps(fileData, indent=11)   # serialization for json
                 # 옵션 파일 쓰기
                 with open(fname[0], "w") as outfile:
                     outfile.write(serial_fileData)
-                
-                dir, file = os.path.split(fname[0])
-                self.statusBar().showMessage(f'{dir}/{file}.opt 옵션파일 저장')
             else:
-                self.statusBar().showMessage("옵션파일저장 취소")
+                self.statusBar().showMessage("옵션파일 저장 취소")
+                return
         except Exception as e:
             self.mCvtLog.error(e)
-        return
+        else:
+            dir, file = os.path.split(fname[0])
+            self.statusBar().showMessage(f'{dir}/{file}.opt 옵션파일 저장')
+            self.mCvtLog.info(f'{dir}/{file}.opt 옵션파일 저장')
 
     #region private method
     #parameter : file path
@@ -341,11 +387,13 @@ class uiShow(QMainWindow, QWidget, form_class):
             self.cbb_algorithm.setEnabled(False)
             self.cb_originalRes.setEnabled(True)
             self.dataOpt.scaleAlgo = " "
+            self.dataOpt.scaleEnable = False
         else:
             self.cb_aspertRatio.setEnabled(True)
             self.cbb_algorithm.setEnabled(True)
             self.cb_originalRes.setChecked(False)
             self.cb_originalRes.setEnabled(False)
+            self.dataOpt.scaleEnable = True
 
     # 종횡비 고정
     def slot_fixedRatioCheck(self):
@@ -383,24 +431,24 @@ class uiShow(QMainWindow, QWidget, form_class):
             self.dataOpt.outputfilePath = ""
             self.statusBar().showMessage(f'파일 저장 취소')
 
-    # 해상도 변경
+    # 해상도 변경 : int
     def slot_widthEdit(self):
         width = self.le_width.text()
-        self.dataOpt.width = width
+        self.dataOpt.width = int(width)
         self.statusBar().showMessage(f'가로해상도 {width} 저장')
     
     def slot_heightEdit(self):
         height = self.le_height.text()
-        self.dataOpt.height = height
+        self.dataOpt.height = int(height)
         self.statusBar().showMessage(f'세로해상도 {height} 저장')
 
-    # 코어수 변경
+    # 코어수 변경 : int
     def slot_multicpuEdit(self):
         multiCPU = self.le_multicpu.text()
-        self.dataOpt.multiCPU = multiCPU
+        self.dataOpt.multiCPU = int(multiCPU)
         self.statusBar().showMessage(f'코어수 {multiCPU} 저장')
     
-    # 사용자스크립트 변경
+    # 사용자스크립트 변경 : str
     def slot_addScriptEdit(self):
         script = self.le_userScript.text()
         self.dataOpt.usrScript = script
@@ -548,6 +596,7 @@ class DataOpt:
     cvtOpt: str
     originalRes: bool
     multiCPU: int
+    scaleEnable: bool
     scaleRatio: bool
     scaleAlgo: str
     usrScript: str
@@ -599,6 +648,11 @@ class DataOpt:
     @multiCPU.setter
     def multiCPU(self, value): self._multiCPU = value
     
+    @property
+    def scaleEnable(self): return self._scaleEnable
+    @scaleEnable.setter
+    def scaleEnable(self, value): self._scaleEnable = value
+
     @property
     def scaleRatio(self): return self._scaleRatio
     @scaleRatio.setter
@@ -675,6 +729,7 @@ class DataOpt:
         dic['cvtOpt'] = self.cvtOpt
         dic['originalRes'] = self.originalRes
         dic['multiCPU'] = self.multiCPU
+        dic['scaleEnable'] = self.scaleEnable
         dic['scaleRatio'] = self.scaleRatio
         dic['scaleAlgo'] = self.scaleAlgo
         dic['usrScript'] = self.usrScript

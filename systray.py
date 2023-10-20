@@ -5,7 +5,7 @@ import Hapconvert
 from PyQt5 import QtWidgets, QtGui
 
 main_icon_path = f'{os.getcwd()}\\resources\\main_icon.png'
-hap_icon_path = f'{os.getcwd()}\\resources\\sys_hap_icon.png'
+hap_icon_path = f'{os.getcwd()}\\resources\\app_title_icon.png'
 
 class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
     """
