@@ -1,18 +1,28 @@
-import os, sys, ffmpeg, subprocess, asyncio, shlex, json
-from dataclasses import dataclass
+import os, sys, ffmpeg, subprocess, asyncio, shlex, json, Happlay, webbrowser
+from dataclasses import dataclass, fields
 from dacite import from_dict
 from PyQt5.QtWidgets import *
 # from PyQt5.QtCore import *
 from PyQt5 import uic, QtGui, QtCore
 from tqdm import tqdm
 from Applog import syslog as SL
-import Happlay
 
-form_class = uic.loadUiType("hapconvert.ui")[0]
-# form_class = uic.loadUiType("D:\\MyJobs\\Software\\02_Project\\pythonProject\\ServerUtils\\hapconvert.ui")[0]
-log_file_path = f'{os.getcwd()}\\log\\hapConvertLog.log'
-app_title_icon_path = f'{os.getcwd()}\\resources\\app_title_icon.png'
-save_file_path = f'{os.getcwd()}\\Files'
+if getattr(sys, 'frozen', False):
+    root_path = sys._MEIPASS
+else:
+    root_path = os.getcwd()
+
+# form_class = uic.loadUiType("hapconvert.ui")[0]
+form_class = uic.loadUiType(os.path.join(root_path, "hapconvert.ui"))[0]
+
+# log_file_path = f'{os.getcwd()}\\log\\hapConvertLog.log'
+# app_title_icon_path = f'{os.getcwd()}\\resources\\app_title_icon.png'
+# save_file_path = f'{os.getcwd()}\\Files'
+# manual_file_path = f'{os.getcwd()}\\Manual\\html\\HAP_Convert_manual.html'
+log_file_path = os.path.join(root_path, 'log', 'hapConvertLog.log')
+app_title_icon_path = os.path.join(root_path, 'resources', 'app_title_icon.png')
+save_file_path = os.path.join(root_path, 'Files')
+manual_file_path = os.path.join(root_path, 'Manual', 'HAP_Convert_manual.html')
 
 class uiShow(QMainWindow, QWidget, form_class):
     def __init__(self):
@@ -30,7 +40,7 @@ class uiShow(QMainWindow, QWidget, form_class):
             multiCPU=6,
             scaleEnable=False,
             scaleRatio=False,
-            scaleAlgo='',
+            scaleAlgo='none',
             usrScript='',
             frameRate=0,
             duration=0
@@ -65,9 +75,9 @@ class uiShow(QMainWindow, QWidget, form_class):
         n_cores = os.cpu_count()
         self.lb_cpunumber.setText(f'({str(n_cores)} of CPU Cores)')
         # Scale 옵션 비활성화
-        self.cb_aspertRatio.setEnabled(False)
-        self.cbb_algorithm.setEnabled(False)
-        self.bt_preViewer.setEnabled(False)
+        # self.cb_aspertRatio.setEnabled(False)
+        # self.cbb_algorithm.setEnabled(False)
+        # self.bt_preViewer.setEnabled(False)
         # Json 파일 import
 
     def init_fileOpen(self):
@@ -79,9 +89,15 @@ class uiShow(QMainWindow, QWidget, form_class):
         self.bt_preViewer.setEnabled(True)
         QApplication.processEvents()
 
-    ## 메뉴바 이벤트 콜백
+    ## 메뉴얼 이벤트 콜백
     def openManual(self):
-        result = QMessageBox.information(self, "메뉴얼", "메뉴얼을 여시겠습니까?", QMessageBox.Ok)
+        try:
+            webbrowser.open_new_tab(manual_file_path)
+            self.statusBar().showMessage(f'메뉴얼 열기')
+        except FileNotFoundError:
+            self.statusBar().showMessage(f'메뉴얼 파일이 없습니다.')
+            self.mCvtLog.warn(f'메뉴얼 파일 없음 {manual_file_path}')
+            pass
         return
     
     ## 프로그램정보 이벤트 콜백
@@ -94,11 +110,12 @@ class uiShow(QMainWindow, QWidget, form_class):
         msg.setWindowTitle("About")
         msg.setText(
             "<p><b>HAP Codec Convert</b><br><br>"
-            "Author : leedg, 2023<br>"
+            "leedg@cudo.co.kr, 2023<br>"
             "Version : v1.0.0<br>"
             "Licence : <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a>"
             "<br><br>"
-            "이 소프트웨어는 LGPLv2.1에 따라 FFmpeg 프로젝트의 라이브러리를 사용합니다<br>"
+            "이 소프트웨어는 LGPLv2.1에 따라 FFmpeg 프로젝트의 라이브러리를 사용합니다.<br>"
+            "서비스 제공사의 허락없이 무단 복제사용을 금지합니다.<br>"
         )
         msg.exec_()
         return
@@ -115,18 +132,26 @@ class uiShow(QMainWindow, QWidget, form_class):
                 print(load_file)
 
                 to_dataOpt = from_dict(data_class=DataOpt, data=load_file)  # set class variable from dict
-                self.dataOpt = to_dataOpt   # 커맨드 실행을 위한 variable 동기화
-                
+                # 정의되지 않는 값
+                notDefine = ["inputfilePath", "outputfilePath", "duration", "frameRate"]
+                # 각 인스턴스의 필드값을 비교반복하여 업데이트
+                for field in fields(DataOpt):
+                    if field.name in notDefine:
+                        pass
+                    else:
+                        setattr(self.dataOpt, field.name, getattr(to_dataOpt, field.name))
+
                 # text box 설정
                 if to_dataOpt.originalRes:
                     self.le_width.setText(str(to_dataOpt.ori_width))
                     self.le_height.setText(str(to_dataOpt.ori_height))
-                elif to_dataOpt.scaleRatio:
-                    self.le_height.clear()
-                    self.le_height.setEnabled(False)
                 else:
                     self.le_width.setText(str(to_dataOpt.width))
                     self.le_height.setText(str(to_dataOpt.height))
+
+                if to_dataOpt.scaleRatio:
+                    self.le_height.clear()
+                    self.le_height.setEnabled(False)
 
                 self.le_multicpu.setText(str(to_dataOpt.multiCPU))
                 self.le_userScript.setText(to_dataOpt.usrScript)
@@ -134,11 +159,11 @@ class uiShow(QMainWindow, QWidget, form_class):
                 self.cbb_option.setCurrentText(to_dataOpt.cvtOpt)
                 self.cbb_algorithm.setCurrentText(to_dataOpt.scaleAlgo)
                 # check box 설정
-                self.cb_scaleEnable.setEnabled(to_dataOpt.scaleEnable)
+                # self.cb_scaleEnable.setEnabled(to_dataOpt.scaleEnable)
                 self.cb_scaleEnable.setChecked(to_dataOpt.scaleEnable)
-                self.cb_originalRes.setEnabled(to_dataOpt.originalRes)
+                # self.cb_originalRes.setEnabled(to_dataOpt.originalRes)
                 self.cb_originalRes.setChecked(to_dataOpt.originalRes)
-                self.cb_aspertRatio.setEnabled(to_dataOpt.scaleRatio)
+                # self.cb_aspertRatio.setEnabled(to_dataOpt.scaleRatio)
                 self.cb_aspertRatio.setChecked(to_dataOpt.scaleRatio)
             else:
                 self.statusBar().showMessage("옵션파일 불러오기 취소")
@@ -172,46 +197,66 @@ class uiShow(QMainWindow, QWidget, form_class):
             self.statusBar().showMessage(f'{dir}/{file}.opt 옵션파일 저장')
             self.mCvtLog.info(f'{dir}/{file}.opt 옵션파일 저장')
 
-    #region private method
-    #parameter : file path
-    #return : fileinfo of dict type
+    #region private method 
+    ## 파일정보
+    # parameter : file path
+    # return : fileinfo of dict type
     def func_fileinfo(self, path):
-        file_meta = ffmpeg.probe(path)
-        for stream in file_meta['streams']:
-            if stream['codec_type'] == 'video':
-                video_codec = stream['codec_name']
-                res_width = stream['width']
-                res_height = stream['height']
-                duration = file_meta['format']['duration']
-                bitrate = stream['bit_rate']
-                size = file_meta['format']['size']
-                frate = stream['avg_frame_rate']
-                list = frate.split('/')
-                frame = float(int(list[0])/int(list[1]))
-                bit_rate = float(int(bitrate) / (1000 * 1000))
-                file_size = float(int(size) / (1024 * 1024))
-            elif stream['codec_type'] == 'audio':
-                audio_codec = stream['codec_name']
-                sample_rate = stream['sample_rate']
-
         dic = dict()
-        dic['video_codec'] = video_codec
-        dic['res_width'] = res_width
-        dic['res_height'] = res_height
-        dic['duration'] = duration
-        dic['frame'] = frame
-        dic['bit_rate'] = bit_rate
-        dic['file_size'] = file_size
-        dic['audio_codec'] = audio_codec
-        dic['sample_rate'] = sample_rate
+        try:
+            file_meta = ffmpeg.probe(path)
+            for stream in file_meta['streams']:
+                if stream['codec_type'] == 'video':
+                    video_codec = stream['codec_name']
+                    res_width = stream['width']
+                    res_height = stream['height']
+                    duration = file_meta['format']['duration']
+                    bitrate = stream['bit_rate']
+                    size = file_meta['format']['size']
+                    frate = stream['avg_frame_rate']
+                    if 'display_aspect_ratio' in file_meta['streams'][0]:
+                        ratio = stream['display_aspect_ratio']
+                    else:
+                        ratio = 'none'
+                    pix_fmt = stream['pix_fmt']
+                    list = frate.split('/')
+                    frame = float(int(list[0])/int(list[1]))
+                    bit_rate = float(int(bitrate) / (1000 * 1000))
+                    file_size = float(int(size) / (1024 * 1024))
+
+                    dic['video_codec'] = video_codec
+                    dic['res_width'] = res_width
+                    dic['res_height'] = res_height
+                    dic['duration'] = duration
+                    dic['frame'] = frame
+                    dic['bit_rate'] = bit_rate
+                    dic['file_size'] = file_size
+                    dic['ratio'] = ratio
+                    dic['pix_fmt'] = pix_fmt
+
+                elif stream['codec_type'] == 'audio':
+                    audio_codec = stream['codec_name']
+                    sample_rate = stream['sample_rate']
+
+                    dic['audio_codec'] = audio_codec
+                    dic['sample_rate'] = sample_rate
+        except ffmpeg.Error as e:
+            print(e.stderr, file=sys.stderr)
+            self.mCvtLog.error(e.stderr)
+        finally:
+            print(dic)
+            pass
+
         return dic
     #endregion private method
     
     #region 버튼 시그널
     # make a openfile dialog using Qt only video files
     def slot_fileOpen(self):
+        result = None
+        DefaultPath = os.path.join(os.path.expanduser('~'),'Desktop')
         self.init_fileOpen()
-        fname = QFileDialog.getOpenFileName(self, 'Select a video file', './', 'Video files(*.mp4 *.avi *.mkv *.mov *.webm);;All files(*)')
+        fname = QFileDialog.getOpenFileName(self, 'Select a video file', DefaultPath, 'Video files(*.mp4 *.avi *.mkv *.mov *.webm);;All files(*)')
         print(fname)
 
         if fname[0] != "":
@@ -230,31 +275,41 @@ class uiShow(QMainWindow, QWidget, form_class):
                     return
                 else:
                     result = QMessageBox.No
-                    self.txt_fileinfo.setText(f'소스파일 : {file}')
+                    self.txt_fileinfo.setText(f'[소스파일 : {file}]')
 
-                #save data
-                self.dataOpt.ori_width = fileinfo['res_width']
-                self.dataOpt.ori_height = fileinfo['res_height']
-                self.dataOpt.frameRate = float(fileinfo["frame"])
-                self.dataOpt.duration = float(fileinfo["duration"])
+                if len(fileinfo) > 0:
+                    self.dataOpt.ori_width = fileinfo['res_width']
+                    self.dataOpt.ori_height = fileinfo['res_height']
+                    self.dataOpt.frameRate = float(fileinfo["frame"])
+                    self.dataOpt.duration = float(fileinfo["duration"])
 
-                #set textbox
-                self.txt_fileinfo.append(f'Video Codec : {fileinfo["video_codec"]}')
-                self.txt_fileinfo.append(f'bit rate : {fileinfo["bit_rate"]:.2f} Mb/s')
-                self.txt_fileinfo.append(f'Resolution : {str(fileinfo["res_width"])} x {str(fileinfo["res_height"])}')
-                self.txt_fileinfo.append(f'Frame rate : {fileinfo["frame"]}')
-                self.txt_fileinfo.append(f'Duration : {str(fileinfo["duration"])} (sec)')
-                self.txt_fileinfo.append(f'File Size : {fileinfo["file_size"]:.2f} Mbytes')
-                self.txt_fileinfo.append(f'Audio Codec : {fileinfo["audio_codec"]}')
-                self.txt_fileinfo.append(f'Audio Sample rate : {str(fileinfo["sample_rate"])}')
+                    self.txt_fileinfo.append(f'Video Codec : {fileinfo["video_codec"]}')
+                    self.txt_fileinfo.append(f'bit rate : {fileinfo["bit_rate"]:.2f} Mb/s')
+                    self.txt_fileinfo.append(f'Resolution : {str(fileinfo["res_width"])} x {str(fileinfo["res_height"])}')
+                    self.txt_fileinfo.append(f'Ratio : {str(fileinfo["ratio"])}')
+                    self.txt_fileinfo.append(f'Pixel format : {str(fileinfo["pix_fmt"])}')
+                    self.txt_fileinfo.append(f'Frame rate : {fileinfo["frame"]}')
+                    self.txt_fileinfo.append(f'Duration : {str(fileinfo["duration"])} (sec)')
+                    self.txt_fileinfo.append(f'File Size : {fileinfo["file_size"]:.2f} Mbytes')
+                    if 'audio_codec' and 'sample_rate' in fileinfo:
+                        self.txt_fileinfo.append(f'Audio Codec : {fileinfo["audio_codec"]}')
+                        self.txt_fileinfo.append(f'Audio Sample rate : {str(fileinfo["sample_rate"])}')
+                    else:
+                        self.txt_fileinfo.append(f'Audio Codec : none')
+                        self.txt_fileinfo.append(f'Audio Sample rate : none')
+                else:
+                    self.mCvtLog.error(f'파일정보오류 : {fileinfo}')
             except ffmpeg.Error as e:
                 print(e.stderr, file=sys.stderr)
                 self.txt_fileinfo.setText(e.stderr)
                 self.mCvtLog.error(e.stderr)
                 #sys.exit(1)
+            except Exception as e:
+                self.mCvtLog.error(f'파일정보오류 : {e}')
+                return
             finally:
                 if result == QMessageBox.Ok:
-                    self.mCvtLog.warning(f'파일경로 및 파일명 오류')
+                    self.mCvtLog.warning(f'파일경로 및 파일명 오류 {dir}/{file}')
                     self.le_fileInputPath.clear()
                 pass
         else:
@@ -262,7 +317,10 @@ class uiShow(QMainWindow, QWidget, form_class):
     
     # make a savefile dialog using Qt only video files
     def slot_fileSave(self):
-        DefaultPath = self.dataOpt.inputfilePath
+        if self.dataOpt.inputfilePath:
+            DefaultPath = self.dataOpt.inputfilePath
+        else:
+            DefaultPath = os.path.join(os.path.expanduser('~'),'Desktop')
         try:
             fname = QFileDialog.getSaveFileName(self, 'Save a video file', DefaultPath, 'Video files(*.mov);;All files(*)')
             print(fname)
@@ -313,14 +371,6 @@ class uiShow(QMainWindow, QWidget, form_class):
     # start convert to a Hap codec 
     def slot_fileConvert(self):
         self.subProc.progress = 0
-        # 예외처리
-        if " " in self.dataOpt.outputfilePath:
-            self.statusBar().showMessage("저장할 파일에 공백을 제거해 주세요!")
-            return
-        elif not self.le_width.text():
-            self.statusBar().showMessage("가로해상도와 세로해상도를 입력하세요!")
-            return
-
         # 저장위치가 없으면, 동일한 폴더에 파일 경로 설정
         if not self.le_fileSavePath.text():
             input_file = self.dataOpt.inputfilePath
@@ -331,6 +381,13 @@ class uiShow(QMainWindow, QWidget, form_class):
             self.txt_fileinfo.append(f'')
             self.txt_fileinfo.append(f'변환파일위치 : {output_file}')
             self.mCvtLog.info(output_file)
+        # else:
+        #     if " " in self.dataOpt.outputfilePath:
+        #         self.statusBar().showMessage("저장할 파일에 공백을 제거해 주세요!")
+        #         return
+        #     elif not self.le_width.text():
+        #         self.statusBar().showMessage("가로해상도와 세로해상도를 입력하세요!")
+        #         return
 
         # 진행률 설정
         self.progress_bar.setMaximum(self.dataOpt.getMaxFrame())
@@ -353,17 +410,25 @@ class uiShow(QMainWindow, QWidget, form_class):
             print(f'변환오류 : {e}')
         else:
             fileinfo = self.func_fileinfo(self.dataOpt.outputfilePath)
-            self.txt_fileinfo.append(f'=====================출력파일정보=====================')
-            self.txt_fileinfo.append(f'출력파일 : {self.dataOpt.outputfilePath}')
-            self.txt_fileinfo.append(f'Video Codec : {fileinfo["video_codec"]}')
-            self.txt_fileinfo.append(f'bit rate : {fileinfo["bit_rate"]:.2f} Mb/s')
-            self.txt_fileinfo.append(f'Resolution : {str(fileinfo["res_width"])} x {str(fileinfo["res_height"])}')
-            self.txt_fileinfo.append(f'Frame rate : {fileinfo["frame"]}')
-            self.txt_fileinfo.append(f'Duration : {str(fileinfo["duration"])} (sec)')
-            self.txt_fileinfo.append(f'File Size : {fileinfo["file_size"]:.2f} Mbytes')
-            self.txt_fileinfo.append(f'Audio Codec : {fileinfo["audio_codec"]}')
-            self.txt_fileinfo.append(f'Audio Sample rate : {str(fileinfo["sample_rate"])}')
-            self.mCvtLog.info(f'파일변환 : I[{self.dataOpt.inputfilePath}] --> O[{self.dataOpt.outputfilePath}]')
+            if len(fileinfo) > 0:
+                self.txt_fileinfo.append(f'=====================출력파일정보=====================')
+                self.txt_fileinfo.append(f'출력파일 : {self.dataOpt.outputfilePath}')
+                self.txt_fileinfo.append(f'Video Codec : {fileinfo["video_codec"]}')
+                self.txt_fileinfo.append(f'bit rate : {fileinfo["bit_rate"]:.2f} Mb/s')
+                self.txt_fileinfo.append(f'Resolution : {str(fileinfo["res_width"])} x {str(fileinfo["res_height"])}')
+                self.txt_fileinfo.append(f'Frame rate : {fileinfo["frame"]}')
+                self.txt_fileinfo.append(f'Duration : {str(fileinfo["duration"])} (sec)')
+                self.txt_fileinfo.append(f'File Size : {fileinfo["file_size"]:.2f} Mbytes')
+                if 'audio_codec' and 'sample_rate' in fileinfo:
+                    self.txt_fileinfo.append(f'Audio Codec : {fileinfo["audio_codec"]}')
+                    self.txt_fileinfo.append(f'Audio Sample rate : {str(fileinfo["sample_rate"])}')
+                else:
+                    self.txt_fileinfo.append(f'Audio Codec : none')
+                    self.txt_fileinfo.append(f'Audio Sample rate : none')
+                self.mCvtLog.info(f'파일변환 : I[{self.dataOpt.inputfilePath}] --> O[{self.dataOpt.outputfilePath}]')
+            else:
+                self.mCvtLog.error(f'파일정보오류 : fileinfo {fileinfo}')
+                return
     #endregion 버튼시그널
 
     #region 체크박스 시그널
@@ -397,6 +462,7 @@ class uiShow(QMainWindow, QWidget, form_class):
 
     # 종횡비 고정
     def slot_fixedRatioCheck(self):
+        codec = self.dataOpt.cvtOpt
         if self.cb_aspertRatio.isChecked() == False:
             self.le_height.setEnabled(True)
             self.dataOpt.scaleRatio = False
@@ -404,7 +470,11 @@ class uiShow(QMainWindow, QWidget, form_class):
             self.le_height.setEnabled(False)
             self.cb_originalRes.setEnabled(False)
             self.dataOpt.scaleRatio = True
-            self.dataOpt.height = -4
+            if codec == 'none':
+                self.dataOpt.height = -1
+            else:
+                self.dataOpt.height = -4
+            self.statusBar().showMessage("원본해상도 비율고정.")
     #endregion 체크박스 시그널
 
     #region 콤보박스 시그널
@@ -413,10 +483,12 @@ class uiShow(QMainWindow, QWidget, form_class):
         self.dataOpt.cvtOpt = self.cbb_option.currentText()
         if self.dataOpt.cvtOpt == "none":
             self.statusBar().showMessage(f'코덱:{self.dataOpt.cvtOpt} 기본 h.264로 변환됩니다.')
+        self.statusBar().showMessage(f'코덱: {self.dataOpt.cvtOpt}')
     
     # Scale 알고리즘
     def slot_getAlgoOpt(self):
         self.dataOpt.scaleAlgo = self.cbb_algorithm.currentText()
+        self.statusBar().showMessage(f'변환 알고리즘: {self.dataOpt.scaleAlgo}')
     #endregion 콤보박스 시그널
 
     #region 텍스트박스 시그널
@@ -434,25 +506,34 @@ class uiShow(QMainWindow, QWidget, form_class):
     # 해상도 변경 : int
     def slot_widthEdit(self):
         width = self.le_width.text()
-        self.dataOpt.width = int(width)
-        self.statusBar().showMessage(f'가로해상도 {width} 저장')
+        if width:
+            self.dataOpt.width = int(width)
+        else:
+            width = self.dataOpt.width
+        self.statusBar().showMessage(f'가로해상도 : {width}')
     
     def slot_heightEdit(self):
         height = self.le_height.text()
-        self.dataOpt.height = int(height)
-        self.statusBar().showMessage(f'세로해상도 {height} 저장')
+        if height:
+            self.dataOpt.height = int(height)
+        else:
+            height = self.dataOpt.height
+        self.statusBar().showMessage(f'세로해상도 : {height}')
 
     # 코어수 변경 : int
     def slot_multicpuEdit(self):
         multiCPU = self.le_multicpu.text()
-        self.dataOpt.multiCPU = int(multiCPU)
-        self.statusBar().showMessage(f'코어수 {multiCPU} 저장')
+        if multiCPU:
+            self.dataOpt.multiCPU = int(multiCPU)
+        else:
+            multiCPU = self.dataOpt.multiCPU
+        self.statusBar().showMessage(f'코어수 : {multiCPU}')
     
     # 사용자스크립트 변경 : str
     def slot_addScriptEdit(self):
         script = self.le_userScript.text()
         self.dataOpt.usrScript = script
-        self.statusBar().showMessage(f'사용자 스크립트 저장')
+        self.statusBar().showMessage(f'사용자 스크립트 적용')
     #endregion 텍스트박스 시그널
 
     #region 코루틴
@@ -520,7 +601,6 @@ class uiShow(QMainWindow, QWidget, form_class):
                     if 'frame' in buf.decode():
                         frame = buf.decode().split(' ')
                         frame = [v for v in frame if v]
-                        print(int(frame[1]))
                         if frame[0] == 'frame=':
                             total_line = int(frame[1])
                             log = buf
@@ -536,13 +616,16 @@ class uiShow(QMainWindow, QWidget, form_class):
             result = subprocess.CompletedProcess(cmd, proc.returncode, stdout=log, stderr=b'')
         except subprocess.CalledProcessError as e:
             self.subProc.run = False
-            print(f'[Error] {e.output}')
+            print(f'[Error Subprocess] {e.output}')
+            self.statusBar().showMessage("프로세스 애러!")
             self.mCvtLog.error(e.output)
+            pass
         except Exception as e:
             self.subProc.run = False
             print(f'[Error] {e}')
             self.statusBar().showMessage("변환실패!")
             self.mCvtLog.error(e)
+            pass
         else:
             self.subProc.run = False
             self.statusBar().showMessage("변환완료!")
@@ -702,8 +785,10 @@ class DataOpt:
         else:
             command.append(f'-vf scale={self.width}:{self.height}')
         # 스케일 알고리즘 설정
-        if self.scaleAlgo != "":
+        if not self.scaleAlgo == 'none':
             command.append(f'-sws_flags {self.scaleAlgo}')
+        elif self.scaleAlgo == ' ': #예외 처리
+            command.append(' ')
         else:
             command.append(' ')
         # CPU 인코딩 설정

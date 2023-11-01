@@ -1,9 +1,16 @@
-import subprocess, os
+import subprocess, os, sys
 import asyncio
 from dataclasses import dataclass
 from Applog import syslog as SL
 
-log_file_path = f'{os.getcwd()}\\log\\playerLog.log'
+if getattr(sys, 'frozen', False):
+    root_path = sys._MEIPASS
+else:
+    root_path = os.getcwd()
+
+log_file_path = os.path.join(root_path, 'log', 'playerLog.log')
+# log_file_path = f'{os.getcwd()}\\log\\playerLog.log'
+
 mplayLog = SL('playerlogger')
 mplayLog = mplayLog.rotating_filehandler(
     filename=log_file_path,

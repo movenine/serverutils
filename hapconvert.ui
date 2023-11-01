@@ -80,6 +80,9 @@ p, li { white-space: pre-wrap; }
          <property name="text">
           <string>6</string>
          </property>
+         <property name="cursorPosition">
+          <number>0</number>
+         </property>
          <property name="clearButtonEnabled">
           <bool>true</bool>
          </property>
@@ -249,9 +252,6 @@ p, li { white-space: pre-wrap; }
            <bold>false</bold>
           </font>
          </property>
-         <property name="currentText">
-          <string>copy</string>
-         </property>
          <property name="modelColumn">
           <number>0</number>
          </property>
@@ -377,9 +377,11 @@ p, li { white-space: pre-wrap; }
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00000f;&quot;&gt;FFmpeg Scaler 알고리즘&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#00000f;&quot;&gt;도움말 -&amp;gt; FFmpeg Documents를 참조하세요&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
-         <property name="currentText">
-          <string>lanczos</string>
-         </property>
+         <item>
+          <property name="text">
+           <string>none</string>
+          </property>
+         </item>
          <item>
           <property name="text">
            <string>lanczos</string>
@@ -685,12 +687,12 @@ text-align: center;</string>
   </action>
   <action name="actionImport">
    <property name="text">
-    <string>Import</string>
+    <string>옵션 가져오기</string>
    </property>
   </action>
   <action name="actionExport">
    <property name="text">
-    <string>Export</string>
+    <string>옵션 내보내기</string>
    </property>
   </action>
   <action name="actionInfo">
@@ -758,8 +760,8 @@ text-align: center;</string>
    <slot>slot_getCheck()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>100</x>
-     <y>375</y>
+     <x>461</x>
+     <y>409</y>
     </hint>
     <hint type="destinationlabel">
      <x>7</x>
@@ -774,8 +776,8 @@ text-align: center;</string>
    <slot>slot_getOpt()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>503</x>
-     <y>369</y>
+     <x>270</x>
+     <y>360</y>
     </hint>
     <hint type="destinationlabel">
      <x>497</x>
@@ -790,8 +792,8 @@ text-align: center;</string>
    <slot>slot_scaleOptCheck()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>138</x>
-     <y>426</y>
+     <x>157</x>
+     <y>409</y>
     </hint>
     <hint type="destinationlabel">
      <x>4</x>
@@ -806,8 +808,8 @@ text-align: center;</string>
    <slot>slot_fixedRatioCheck()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>129</x>
-     <y>483</y>
+     <x>148</x>
+     <y>466</y>
     </hint>
     <hint type="destinationlabel">
      <x>7</x>
@@ -822,8 +824,8 @@ text-align: center;</string>
    <slot>slot_getAlgoOpt()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>503</x>
-     <y>477</y>
+     <x>533</x>
+     <y>468</y>
     </hint>
     <hint type="destinationlabel">
      <x>522</x>
@@ -897,13 +899,13 @@ text-align: center;</string>
   </connection>
   <connection>
    <sender>le_width</sender>
-   <signal>returnPressed()</signal>
+   <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>slot_widthEdit()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>194</x>
-     <y>348</y>
+     <x>270</x>
+     <y>334</y>
     </hint>
     <hint type="destinationlabel">
      <x>223</x>
@@ -913,13 +915,13 @@ text-align: center;</string>
   </connection>
   <connection>
    <sender>le_height</sender>
-   <signal>returnPressed()</signal>
+   <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>slot_heightEdit()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>398</x>
-     <y>343</y>
+     <x>533</x>
+     <y>334</y>
     </hint>
     <hint type="destinationlabel">
      <x>392</x>
@@ -929,13 +931,13 @@ text-align: center;</string>
   </connection>
   <connection>
    <sender>le_multicpu</sender>
-   <signal>returnPressed()</signal>
+   <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>slot_multicpuEdit()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>168</x>
-     <y>394</y>
+     <x>266</x>
+     <y>386</y>
     </hint>
     <hint type="destinationlabel">
      <x>284</x>
@@ -945,7 +947,7 @@ text-align: center;</string>
   </connection>
   <connection>
    <sender>le_userScript</sender>
-   <signal>returnPressed()</signal>
+   <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
    <slot>slot_addScriptEdit()</slot>
    <hints>

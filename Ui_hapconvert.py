@@ -51,6 +51,7 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.le_multicpu.setFont(font)
         self.le_multicpu.setStatusTip("")
+        self.le_multicpu.setCursorPosition(0)
         self.le_multicpu.setClearButtonEnabled(True)
         self.le_multicpu.setObjectName("le_multicpu")
         self.gridLayout.addWidget(self.le_multicpu, 3, 1, 1, 1)
@@ -222,6 +223,7 @@ class Ui_MainWindow(object):
         self.cbb_algorithm.addItem("")
         self.cbb_algorithm.addItem("")
         self.cbb_algorithm.addItem("")
+        self.cbb_algorithm.addItem("")
         self.gridLayout_3.addWidget(self.cbb_algorithm, 0, 2, 1, 1)
         self.cb_aspertRatio = QtWidgets.QCheckBox(self.groupBox_Scale)
         font = QtGui.QFont()
@@ -381,10 +383,10 @@ class Ui_MainWindow(object):
         self.bt_preViewer.clicked.connect(MainWindow.slot_previewer) # type: ignore
         self.le_fileSavePath.textChanged['QString'].connect(MainWindow.slot_outputfileChanged) # type: ignore
         self.le_fileInputPath.textChanged['QString'].connect(MainWindow.slot_inputfileChanged) # type: ignore
-        self.le_width.returnPressed.connect(MainWindow.slot_widthEdit) # type: ignore
-        self.le_height.returnPressed.connect(MainWindow.slot_heightEdit) # type: ignore
-        self.le_multicpu.returnPressed.connect(MainWindow.slot_multicpuEdit) # type: ignore
-        self.le_userScript.returnPressed.connect(MainWindow.slot_addScriptEdit) # type: ignore
+        self.le_width.editingFinished.connect(MainWindow.slot_widthEdit) # type: ignore
+        self.le_height.editingFinished.connect(MainWindow.slot_heightEdit) # type: ignore
+        self.le_multicpu.editingFinished.connect(MainWindow.slot_multicpuEdit) # type: ignore
+        self.le_userScript.editingFinished.connect(MainWindow.slot_addScriptEdit) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.bt_open, self.le_fileInputPath)
         MainWindow.setTabOrder(self.le_fileInputPath, self.txt_fileinfo)
@@ -418,7 +420,6 @@ class Ui_MainWindow(object):
         self.lb_cpunumber.setText(_translate("MainWindow", "(N of CPU Core)"))
         self.cb_originalRes.setText(_translate("MainWindow", "원본해상도"))
         self.label.setText(_translate("MainWindow", "코덱"))
-        self.cbb_option.setCurrentText(_translate("MainWindow", "copy"))
         self.cbb_option.setItemText(0, _translate("MainWindow", "copy"))
         self.cbb_option.setItemText(1, _translate("MainWindow", "hap"))
         self.cbb_option.setItemText(2, _translate("MainWindow", "hap_alpha"))
@@ -427,18 +428,18 @@ class Ui_MainWindow(object):
         self.lb_link.setText(_translate("MainWindow", "<html><head/><body><p><a href=\"https://www.ffmpeg.org/documentation.html\"><span style=\" text-decoration: underline; color:#0000ff;\">FFmpeg Documents</span></a></p></body></html>"))
         self.groupBox_Scale.setTitle(_translate("MainWindow", "Scale 옵션"))
         self.cbb_algorithm.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#00000f;\">FFmpeg Scaler 알고리즘</span></p><p><span style=\" color:#00000f;\">도움말 -&gt; FFmpeg Documents를 참조하세요</span></p></body></html>"))
-        self.cbb_algorithm.setCurrentText(_translate("MainWindow", "lanczos"))
-        self.cbb_algorithm.setItemText(0, _translate("MainWindow", "lanczos"))
-        self.cbb_algorithm.setItemText(1, _translate("MainWindow", "neighbor"))
-        self.cbb_algorithm.setItemText(2, _translate("MainWindow", "experimental"))
-        self.cbb_algorithm.setItemText(3, _translate("MainWindow", "area"))
-        self.cbb_algorithm.setItemText(4, _translate("MainWindow", "spline"))
-        self.cbb_algorithm.setItemText(5, _translate("MainWindow", "fast_bilinear"))
-        self.cbb_algorithm.setItemText(6, _translate("MainWindow", "bilinear"))
-        self.cbb_algorithm.setItemText(7, _translate("MainWindow", "bicubic"))
-        self.cbb_algorithm.setItemText(8, _translate("MainWindow", "gauss"))
-        self.cbb_algorithm.setItemText(9, _translate("MainWindow", "sinc"))
-        self.cbb_algorithm.setItemText(10, _translate("MainWindow", "bicublin"))
+        self.cbb_algorithm.setItemText(0, _translate("MainWindow", "none"))
+        self.cbb_algorithm.setItemText(1, _translate("MainWindow", "lanczos"))
+        self.cbb_algorithm.setItemText(2, _translate("MainWindow", "neighbor"))
+        self.cbb_algorithm.setItemText(3, _translate("MainWindow", "experimental"))
+        self.cbb_algorithm.setItemText(4, _translate("MainWindow", "area"))
+        self.cbb_algorithm.setItemText(5, _translate("MainWindow", "spline"))
+        self.cbb_algorithm.setItemText(6, _translate("MainWindow", "fast_bilinear"))
+        self.cbb_algorithm.setItemText(7, _translate("MainWindow", "bilinear"))
+        self.cbb_algorithm.setItemText(8, _translate("MainWindow", "bicubic"))
+        self.cbb_algorithm.setItemText(9, _translate("MainWindow", "gauss"))
+        self.cbb_algorithm.setItemText(10, _translate("MainWindow", "sinc"))
+        self.cbb_algorithm.setItemText(11, _translate("MainWindow", "bicublin"))
         self.cb_aspertRatio.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#00000f;\">종횡비 고정을 체크하면, 가로해상도만 입력할 수 있으며 이는 너비를 비율에 따라 출력의 높이를 자동계산합니다. (**Hap 코덱은 너비와 높이의 크기가 4의배수이어야 함으로 \'-4\'로 고정됩니다.)</span></p></body></html>"))
         self.cb_aspertRatio.setText(_translate("MainWindow", "종횡비 고정"))
         self.label_3.setText(_translate("MainWindow", "Scale 알고리즘"))
@@ -454,8 +455,8 @@ class Ui_MainWindow(object):
         self.menu_2.setTitle(_translate("MainWindow", "파일"))
         self.menu_3.setTitle(_translate("MainWindow", "부가기능"))
         self.actionManual.setText(_translate("MainWindow", "사용방법"))
-        self.actionImport.setText(_translate("MainWindow", "Import"))
-        self.actionExport.setText(_translate("MainWindow", "Export"))
+        self.actionImport.setText(_translate("MainWindow", "옵션 가져오기"))
+        self.actionExport.setText(_translate("MainWindow", "옵션 내보내기"))
         self.actionInfo.setText(_translate("MainWindow", "프로그램정보"))
         self.actionMad.setText(_translate("MainWindow", "매드맵퍼 파일추가"))
         self.actionMad.setStatusTip(_translate("MainWindow", "매드맵퍼에 연결하여 변환된 파일을 재생목록에 추가합니다."))

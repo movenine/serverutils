@@ -1,0 +1,669 @@
+
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="generator" content="HelpNDoc Personal Edition 8.9.0.604">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="favicon.ico"/>
+
+  <title>설명서</title>
+  <meta name="description" content="" /> 
+  <meta name="keywords" content="">
+
+
+
+  
+  
+
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="설명서">
+  <meta name="twitter:description" content="">
+
+  <!-- Open Graph data -->
+  <meta property="og:title" content="설명서" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="HAP_Convert_manual" /> 
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendors/bootstrap-3.4.1/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="vendors/bootstrap-3.4.1/css/ie10-viewport-bug-workaround.css" rel="stylesheet"/>
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+      <script src="vendors/html5shiv-3.7.3/html5shiv.min.js"></script>
+      <script src="vendors/respond-1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  <!-- JsTree styles -->
+  <link href="vendors/jstree-3.3.10/themes/default/style.min.css" rel="stylesheet"/>
+
+  <!-- Hnd styles -->
+  <link href="css/layout.min.css" rel="stylesheet" />
+  <link href="css/effects.min.css" rel="stylesheet" />
+  <link href="css/theme-light-blue.min.css" rel="stylesheet" />
+  <link href="css/print.min.css" rel="stylesheet" media="print" />
+  <style type="text/css">nav { width: 350px} @media screen and (min-width:769px) { body.md-nav-expanded div#main { margin-left: 350px} body.md-nav-expanded header { padding-left: 364px} }</style>
+  <style type="text/css">.navigation #inline-toc { width: auto !important}</style>
+
+  <!-- Content style -->
+  <link href="css/hnd.content.css" rel="stylesheet" />
+
+  
+
+
+
+</head>
+
+<body class="md-nav-expanded">
+
+
+
+  
+
+  <div id="skip-link">
+    <a href="#main-content" class="element-invisible">Skip to main content</a>
+  </div>
+
+  <header class="headroom">
+    <button class="hnd-toggle btn btn-default">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>        
+    </button>
+    <h1>HAP_Convert_manual</h1>
+    
+  </header>
+
+  <nav id="panel-left" class="md-nav-expanded">
+    <!-- Nav tabs -->
+    <ul class="tab-tabs nav nav-tabs" role="tablist">
+      <li id="nav-close" role="presentation"> 
+        <button class="hnd-toggle btn btn-default" aria-label="close">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+      </li>
+      
+	  
+        <li role="presentation" class="tab active">
+            <a href="#contents" id="tab-contents" aria-controls="contents" role="tab" data-toggle="tab">
+                <i class="glyphicon glyphicon-list"></i>
+                Contents
+            </a>
+        </li>
+      
+        <li role="presentation" class="tab">
+            <a href="#index" id="tab-index" aria-controls="index" role="tab" data-toggle="tab">
+                <i class="glyphicon glyphicon-asterisk"></i>
+                Index
+            </a>
+        </li>
+      
+        <li role="presentation" class="tab">
+            <a href="#search" id="tab-search" aria-controls="search" role="tab" data-toggle="tab">
+                <i class="glyphicon glyphicon-search"></i>
+                Search
+            </a>
+        </li>
+      
+    </ul>  <!-- /Nav tabs -->
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+	  
+      <div role="tabpanel" class="tab-pane active" id="contents">
+        <div id="toc" class="tree-container unselectable"
+            data-url="_toc.json"
+            data-openlvl="1"
+        >
+            
+        </div>
+      </div>  <!-- /contents-->
+      
+      <div role="tabpanel" class="tab-pane" id="index">
+        <div id="keywords" class="tree-container unselectable"
+            data-url="_keywords.json"
+            data-openlvl="1"
+        >
+            
+        </div>
+      </div>  <!-- /index-->
+      
+      <div role="tabpanel" class="tab-pane" id="search">
+        <div class="search-content">
+          <div class="search-input">
+            <form id="search-form">
+              <div class="form-group">
+                <div class="input-group">
+                  <input type="text" class="form-control" id="input-search" name="input-search" placeholder="Search..." aria-label="Search..." />
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" aria-label="Search...">
+                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </form>
+          </div>  <!-- /search-input -->
+          <div class="search-result">
+            <div id="search-info"></div>
+            <div class="tree-container unselectable" id="search-tree"></div>
+          </div>  <!-- /search-result -->
+        </div>  <!-- /search-content -->
+      </div>  <!-- /search-->
+      
+    </div>  <!-- /Tab panes -->
+
+  </nav>
+
+  <div id="main">
+
+    <article>
+        <div id="topic-content" class="container-fluid" 
+		  data-hnd-id="Newtopic"
+		  data-hnd-context="0"
+		  data-hnd-title="설명서"
+		>
+            
+                <div class="navigation">
+                    <ol class="breadcrumb">
+                        
+                    </ol>
+                    <div class="nav-arrows">
+                        
+                    </div>
+                </div> 
+            
+
+            <a id="main-content"></a>
+
+            <h2>설명서</h2>
+
+            <div class="main-content">
+                
+<ul style="text-indent: 0px; padding: 0; margin: 0 0 0 24px; list-style-position: outside;">
+ <li style="list-style-image: url('lib/18.bmp')" class="rvps4"><span class="rvts0"><span class="rvts12">개요</span></span></li>
+</ul>
+<hr style="height: 1px; color : #000000;  background-color : #000000; border-width : 0px;">
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">4K(UHD) 해상도 이상의 고해상도 파일의 원활한 재생 성능을 위하여 HAP 코덱을 권장하고 있어, 대부분의 미디어 플레이어 프로그램들이 고해상도 재생을 위해 &nbsp;HAP 코덱을 지원합니다.</span></p>
+<p class="rvps2"><span class="rvts11">이러한 HAP 코덱을 사용하기 위해서는 기존의 압축된 영상파일(H.264/265)을 변환해 주어야 합니다. 단, HAP 코덱파일은 무압축 방식이므로 파일 크기가 5배이상 커지므로 파일 관리에 유의 하여야 합니다.</span></p>
+<p class="rvps2"><span class="rvts11">또한 일부 미디어 플레이어는 FFmpeg 하드웨어 가속기능을 지원하는데, HAP 코덱파일은 호환됩니다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<h2 class="rvps6"><span class="rvts0"><span class="rvts16">사용자 인터페이스</span></span></h2>
+<hr style="height: 1px; color : #000000;  background-color : #000000; border-width : 0px;">
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">HAP Convert은 윈도우 작업표시줄 Tray 아이콘을 더블클릭하거나 우클릭-HAP코덱변환으로 실행된다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img alt="" style="padding : 1px;" src="lib/NewItem3.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">아래는 실행했을때의 창 모습이다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img alt="" style="padding : 1px;" src="lib/NewItem1.png"><span class="rvts11">&nbsp;</span></p>
+<p class="rvps5"><span class="rvts13">[사용자 인터페이스(UI) 설명]</span></p>
+<div class="rvps2">
+<table width="70%" border="1" cellpadding="1" cellspacing="2" style="border-color: #000000; border-style: solid; background-color: #ffffff; border-spacing: 2px;">
+ <tr valign="top">
+  <td colspan="2" width="254" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">메뉴구분</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">설 명</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td rowspan="3" width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">메뉴바</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">파일</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">옵션 가져오기, 옵션 내보내기 선택</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">부가기능</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts14">추후개발</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">도움말</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">사용방법, 프로그램정보&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">1</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">파일열기 버튼</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">변환할 소스파일의 경로를 선택</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">2</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">파일저장 버튼</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">저장할 경로 및 파일명을 입력하여 저장</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">3</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">미리보기 버튼</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">[파일열기]/[파일저장] 경로에 있는 파일을 재생하고, 변환 후의 상태를 미리 확인할 수 있음</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">4</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">파일정보 뷰</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">지정된 파일의 코덱, 비트레이트, 비율, 프레임 등의 정보를 표시</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">5</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">가로해상도 입력</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">변환할 가로 해상도를 입력할 수 있는 텍스트 창</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">6</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">세로해상도 입력</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">변환할 세로 해상도를 입력할 수 있는 텍스트 창</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">7</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">코덱 선택</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">변환할 코덱을 미리 지정한 리스트에서 선택</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">8</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">인코딩 코어수 입력</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">인코딩에 사용할 CPU의 코어수를 지정할 수 있음 (단, 최대 코어수를 넘지 못함)</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">9</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">Scale 옵션 활성화 체크</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">체크하면 Scale 옵션을 사용가능</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">10</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">원본 해상도 체크</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">소스파일의 원본 해상도를 그대로 유지하고 변환</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">11</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">종횡비 고정 체크</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">체크하면 현재 비율을 유지하고, 가로해상도 대비 세로해상도를 자동으로 맞춤</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">12</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">Scale 알고리즘 선택</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">Default : lanczos&nbsp;</span></p>
+   <p class="rvps2"><span class="rvts11">해상도 Scale 보정을 할 때 적용되는 색보정에 대한 알고리즘을 제공</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">13</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">Add Script 입력</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">FFmpeg 라이브러리에서 제공하는 옵션을 사용자가 직접 명령어를 입력하여 적용이 가능 (</span><a class="rvts15" href="https://www.ffmpeg.org/ffmpeg.html" target="_blank">FFmpeg Documents</a><span class="rvts11"> 링크 참조)</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">14</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">변환 버튼</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">파일 변환 시작</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="80" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">15</span></p>
+  </td>
+  <td width="164" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">변환 진행바</span></p>
+  </td>
+  <td width="511" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">변환되는 진행상태를 표시 (~100%)</span></p>
+  </td>
+ </tr>
+</table>
+</div>
+<p class="rvps2"><span class="rvts14"><br/></span></p>
+<p class="rvps2" style="page-break-before: always;"><span class="rvts14"><br/></span></p>
+<ul style="text-indent: 0px; padding: 0; margin: 0 0 0 24px; list-style-position: outside;">
+ <li style="list-style-image: url('lib/19.bmp')" class="rvps4"><span class="rvts0"><span class="rvts12">파일 열기 / 저장</span></span></li>
+</ul>
+<hr style="height: 1px; color : #000000;  background-color : #000000; border-width : 0px;">
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">1. </span><span class="rvts17">파일 열기</span><span class="rvts11"> 버튼을 누르면, Select a video file 창이 나타나고 *.mp4 *.avi *.mkv 등의 비디오 파일 확장자 파일만 선택할 수 있습니다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img width="907" height="533" alt="" style="padding : 1px;" src="lib/NewItem4.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">2.</span><span class="rvts18"> </span><span class="rvts17">파일 저장</span><span class="rvts11"> 버튼을 누르면, Save a video file 창이 나타나고, 저장할 파일 이름을 입력합니다. (파일형식은 mov)</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img width="906" height="533" alt="" style="padding : 1px;" src="lib/NewItem5.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">이미 있는 파일을 선택할 경우, 아래와 같이 안내창이 나타나고 다시 저장할 수 있습니다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img alt="" style="padding : 1px;" src="lib/NewItem6.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">3. 파일 열기를 성공하면, 파일정보 창에 소스파일의 기본 정보가 표시됩니다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img width="542" height="246" alt="" style="padding : 1px;" src="lib/NewItem7.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<h2 class="rvps6"><span class="rvts0"><span class="rvts16">옵션 파일 가져오기 / 내보내기</span></span></h2>
+<hr style="height: 1px; color : #000000;  background-color : #000000; border-width : 0px;">
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">1. </span><span class="rvts17">메뉴바-파일-옵션 가져오기</span><span class="rvts11"> 버튼을 누르면, Import a option file 창이 나타나고 저장된 변환 시나리오 옵션파일(*.opt)을 가져옵니다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img width="938" height="552" alt="" style="padding : 1px;" src="lib/NewItem8.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">옵션파일을 가져오기 하면, 메인 창의 포멧 변환 옵션 값들이 모두 반영됩니다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img width="550" height="281" alt="" style="padding : 1px;" src="lib/NewItem11.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">*예시 </span><span class="rvts17">{A스튜디오_시나리오2_3840x2160_30fps_HAP_ALPHA.opt}</span><span class="rvts11"> 옵션파일 내용*</span></p>
+<p class="rvps2"><span class="rvts11">&nbsp; </span><span class="rvts19">→</span><span class="rvts11"> opt 파일을 메모장으로 열고 값을 편집하여 저장할 수 있으며, 저장된 파일을 가져올 수 있습니다. (단, 수치정도만 수정할 것을 권장)</span></p>
+<p class="rvps2"><span class="rvts19"><br/></span></p>
+<p class="rvps2"><img width="511" height="305" alt="" style="padding : 1px;" src="lib/NewItem12.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">2. </span><span class="rvts17">메뉴바-파일-옵션 내보내기</span><span class="rvts11"> 버튼을 누르면, Export a option file 창이 나타나고 입력한 파일이름으로 옵션파알(*.opt)을 내보내기 합니다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img width="937" height="551" alt="" style="padding : 1px;" src="lib/NewItem10.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2" style="page-break-before: always;"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<ul style="text-indent: 0px; padding: 0; margin: 0 0 0 24px; list-style-position: outside;">
+ <li style="list-style-image: url('lib/20.bmp')" class="rvps4"><span class="rvts0"><span class="rvts12">코덱 변환</span></span></li>
+</ul>
+<hr style="height: 1px; color : #000000;  background-color : #000000; border-width : 0px;">
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">앞서 변환할 </span><span class="rvts15">파일 열기/저장 및 옵션파일</span><span class="rvts11"> 작업이 완료되면, 메인 창 하단의 변환 버튼을 클릭합니다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img alt="" style="padding : 1px;" src="lib/NewItem13.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">변환 진행바에 백분율(%) 표시되며, 완료되면 파일정보창에 출력파일정보와 함께 정상적으로 완료되었다는 "변환완료!" 상태메세지가 표시됩니다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img alt="" style="padding : 1px;" src="lib/NewItem15.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<h2 class="rvps6"><span class="rvts0"><span class="rvts16">애러(Error) 로깅</span></span></h2>
+<hr style="height: 1px; color : #000000;  background-color : #000000; border-width : 0px;">
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<div class="rvps2">
+<table width="70%" border="1" cellpadding="1" cellspacing="2" style="border-color: #000000; border-style: solid; background-color: #ffffff; border-spacing: 2px;">
+ <tr valign="top">
+  <td width="228" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">애러 경로</span></p>
+  </td>
+  <td width="421" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">원인</span></p>
+  </td>
+  <td width="251" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps3"><span class="rvts11">표시</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="228" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">파일경로</span></p>
+  </td>
+  <td width="421" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">경로 지정이후, 강제로 경로가 변경되었을때 파일을 찾지 못함</span></p>
+  </td>
+  <td width="251" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">변환실패</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="228" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">파일명</span></p>
+  </td>
+  <td width="421" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">파일명에 공백(' ')이 있거나, 점('.')이 2개 이상일때&nbsp;</span></p>
+  </td>
+  <td width="251" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">주의 안내창 팝업</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="228" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">옵션 미적용</span></p>
+  </td>
+  <td width="421" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">옵션파일을 직접 수정할 때, 오타 또는 정상적인 값이 아닐 경우,</span></p>
+   <p class="rvps2"><span class="rvts11">소스파일정보와 옵션정보가 다른 경우</span></p>
+  </td>
+  <td width="251" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">변환실패</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="228" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">사용자 스크립트 구문 오류</span></p>
+  </td>
+  <td width="421" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">사용자가 추가한 스크립트 구문이 문법에 위반되는 경우&nbsp;</span></p>
+  </td>
+  <td width="251" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">변환실패</span></p>
+  </td>
+ </tr>
+ <tr valign="top">
+  <td width="228" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">라이브러리 오류</span></p>
+  </td>
+  <td width="421" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">변환 도중 FFmpeg 자체 문제로 애러 발생</span></p>
+  </td>
+  <td width="251" valign="middle" style="border-color: #000000; border-style: solid; padding: 1px;">
+   <p class="rvps2"><span class="rvts11">변환오류</span></p>
+  </td>
+ </tr>
+</table>
+</div>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img alt="" style="padding : 1px;" src="lib/NewItem16.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2" style="page-break-before: always;"><span class="rvts11"><br/></span></p>
+<ul style="text-indent: 0px; padding: 0; margin: 0 0 0 24px; list-style-position: outside;">
+ <li style="list-style-image: url('lib/21.bmp')" class="rvps4"><span class="rvts0"><span class="rvts12">미리보기</span></span></li>
+</ul>
+<hr style="height: 1px; color : #000000;  background-color : #000000; border-width : 0px;">
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">코덱 변환이 완료되고 미리보기 버튼을 누르면, 메인 창 기준 좌측에 소스파일과 출력파일이 동시에 재생됩니다.</span></p>
+<p class="rvps2"><span class="rvts11">미리보기 창은 고정비율로 크기조절이 가능하고 키보드 좌(</span><span class="rvts19">←</span><span class="rvts11">), 우( </span><span class="rvts19">→</span><span class="rvts11">) 키를 통해 앞으로/뒤로 감기 제어가 가능합니다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img width="1251" height="715" alt="" style="padding : 1px;" src="lib/NewItem18.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2" style="page-break-before: always;"><span class="rvts11"><br/></span></p>
+<ul style="text-indent: 0px; padding: 0; margin: 0 0 0 24px; list-style-position: outside;">
+ <li style="list-style-image: url('lib/22.bmp')" class="rvps4"><span class="rvts0"><span class="rvts12">사용자 스크립트</span></span></li>
+</ul>
+<hr style="height: 1px; color : #000000;  background-color : #000000; border-width : 0px;">
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">Add Script 텍스트 박스에 커맨드 입력을 통해서 &nbsp;FFmpeg에서 제공하는 수 많은 변환 옵션을 적용할 수 있습니다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img alt="" style="padding : 1px;" src="lib/NewItem19.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">우측에 있는 FFmpeg Documents를 클릭하면, 공식 사이트로 접속하여 더 많은 정보를 확인할 수 있습니다.</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><img width="592" height="350" alt="" style="padding : 1px;" src="lib/NewItem20.png"><img width="592" height="350" alt="" style="padding : 1px;" src="lib/NewItem22.png"></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<h1 class="rvps4"><span class="rvts0"><span class="rvts12">유용한 스크립트 예제</span></span></h1>
+<hr style="height: 1px; color : #000000;  background-color : #000000; border-width : 0px;">
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">프레임 레이트 강제설정 (30, 60, 29.97, 59.94 ...)</span></p>
+<p class="rvps7"><span class="rvts20">-r 30</span></p>
+<p class="rvps2"><span class="rvts11">&nbsp;</span></p>
+<p class="rvps2"><span class="rvts11">소스파일 전체해상도의 중심을 기준으로 3분의 2크기로 좌/우를 Crop (ex. 15360 x 2160 -&gt; 10240x2160)</span></p>
+<p class="rvps7"><span class="rvts20">-vf crop=2/3*in_w:3/3*in_h</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">소스파일 좌측부터 전체 해상도의 절반크기로 Crop</span></p>
+<p class="rvps7"><span class="rvts20">-vf crop=in_w/2:in_h:0*in_w:in_h</span></p>
+<p class="rvps2"><span class="rvts11"><br/></span></p>
+<p class="rvps2"><span class="rvts11">Contrast 를 증가</span></p>
+<p class="rvps7"><span class="rvts20">-vf "colorlevels=rimin=0.039:gimin=0.039:bimin=0.039:rimax=0.96:gimax=0.96:bimax=0.96"</span></p>
+<p class="rvps2"><span class="rvts11"></span><span class="rvts6"></span></p>
+<p class="rvps8" style="clear: both;"><span class="rvts21">Created with the Personal Edition of HelpNDoc: </span><a class="rvts22" href="https://www.helpndoc.com/news-and-articles/2022-09-27-why-use-a-help-authoring-tool-instead-of-microsoft-word-to-produce-high-quality-documentation/">Make Documentation a Breeze with a Help Authoring Tool</a></p>
+
+            </div>
+            
+            <div id="topic_footer"><div id="topic_footer_content">Copyright &copy; &lt;Dates&gt; by &lt;Authors&gt;. All Rights Reserved.</div></div>
+        </div>  <!-- /#topic-content -->
+    </article>
+
+    <footer></footer>
+
+  </div>  <!-- /#main -->
+
+  <div class="mask" data-toggle="sm-nav-expanded"></div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="hndModal" tabindex="-1" role="dialog" aria-labelledby="hndModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="hndModalLabel"></h4>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary modal-btn-close" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Splitter -->
+  <div id="hnd-splitter" style="left: 350px"></div>  
+
+  <!-- Scripts -->
+  <script src="vendors/jquery-3.5.1/jquery.min.js"></script>
+  <script src="vendors/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+  <script src="vendors/bootstrap-3.4.1/js/ie10-viewport-bug-workaround.js"></script>
+  <script src="vendors/markjs-8.11.1/jquery.mark.min.js"></script>
+  <script src="vendors/uri-1.19.11/uri.min.js"></script>
+  <script src="vendors/imageMapResizer-1.0.10/imageMapResizer.min.js"></script>
+  <script src="vendors/headroom-0.11.0/headroom.min.js"></script>
+  <script src="vendors/jstree-3.3.10/jstree.min.js"></script>  
+  <script src="vendors/interactjs-1.9.22/interact.min.js"></script>  
+
+  <!-- HelpNDoc scripts -->
+  <script src="js/polyfill.object.min.js"></script>
+  <script src="_translations.js"></script>
+  <script src="js/hndsd.min.js"></script>
+  <script src="js/hndse.min.js"></script>
+  <script src="js/app.min.js"></script>
+
+  <!-- Init script -->
+  <script>
+    $(function() {
+      // Create the app
+      var app = new Hnd.App({
+        searchEngineMinChars: 3
+      });
+      // Update translations
+      hnd_ut(app);
+	  // Instanciate imageMapResizer
+	  imageMapResize();
+	  // Custom JS
+	  
+      // Boot the app
+      app.Boot();
+    });
+  </script>
+
+
+
+</body>
+
+</html>
+
