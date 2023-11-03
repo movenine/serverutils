@@ -1,3 +1,5 @@
+#-*-coding: utf-8
+
 import os, sys, ffmpeg, subprocess, asyncio, shlex, json, Happlay, webbrowser
 from dataclasses import dataclass, fields
 from dacite import from_dict
@@ -107,10 +109,10 @@ class uiShow(QMainWindow, QWidget, form_class):
         msg.setIconPixmap(pixmap)
         msg.setWindowIcon(QtGui.QIcon(app_title_icon_path))
         msg.setTextFormat(QtCore.Qt.RichText)
-        msg.setWindowTitle("About")
+        msg.setWindowTitle("About Hap Convert")
         msg.setText(
             "<p><b>HAP Codec Convert</b><br><br>"
-            "leedg@cudo.co.kr, 2023<br>"
+            "Copyright (C) 2023 leedg<br>"
             "Version : v1.0.0<br>"
             "Licence : <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a>"
             "<br><br>"
@@ -248,41 +250,79 @@ class uiShow(QMainWindow, QWidget, form_class):
             pass
 
         return dic
+    def find_listIndex(self, src_list, string, col):
+        for i, s in enumerate(src_list):
+            if string in s:
+                if col == 0:
+                    return i
+                else:
+                    return i + col
+        return -1
+    def cut_string(self, src_string, target_string, direction):
+        """
+        args:
+            src_string : 문자열 소스
+            target_string : 기준이 될 문자열
+            direction : 기준에서 좌우 방향 ('L', 'R')
+        return:
+            처리된 문자열 반환
+        """
+        index = src_string.find(target_string)
+        if index != -1:
+            if direction == 'L':
+                return src_string[index:]
+            else:
+                return src_string[:index + len(target_string)]
+        return src_string
+
     #endregion private method
     
     #region 버튼 시그널
     # make a openfile dialog using Qt only video files
     def slot_fileOpen(self):
         result = None
-        DefaultPath = os.path.join(os.path.expanduser('~'),'Desktop')
+        # [first_QC : 최초 파일경로는 바탕화면이고, 이후 열었던 경로로 변경 2023.11.02]
+        if self.dataOpt.inputfilePath:
+            DefaultPath = self.dataOpt.inputfilePath
+        else:
+            DefaultPath = os.path.join(os.path.expanduser('~'),'Desktop')
         self.init_fileOpen()
         fname = QFileDialog.getOpenFileName(self, 'Select a video file', DefaultPath, 'Video files(*.mp4 *.avi *.mkv *.mov *.webm);;All files(*)')
         print(fname)
-
         if fname[0] != "":
-            self.le_fileInputPath.setText(fname[0])
-            self.dataOpt.inputfilePath = fname[0]   # 데이터클래스에 저장
             try:
-                fileinfo = self.func_fileinfo(fname[0])
-                dir, file = os.path.split(fname[0])
+                file_path = fname[0]
+                dir, file = os.path.split(file_path)
                 fileCheck = file.split('.')
-
                 if " " in file or " " in dir:
-                    result = QMessageBox.warning(self, "주의", "파일경로 및 파일명에 공백은 제거해주세요", QMessageBox.Ok)
-                    return
+                    new_file_path = file_path.replace(' ', '_')
+                    result = QMessageBox.question(
+                        self,
+                        "파일 공백처리 경고",
+                        f'경로 및 파일명에 공백이 포함되어 있습니다. \n\n원래 파일명: {file_path}\n새 파일명: {new_file_path}\n\n새 파일명으로 저장하시겠습니까?',
+                        QMessageBox.Yes | QMessageBox.No,
+                        QMessageBox.No
+                        )
+                    if result == QMessageBox.Yes:
+                        os.rename(file_path, new_file_path)
+                        file_path = new_file_path
+                    else:
+                        self.statusBar().showMessage("파일열기 취소")
+                        return
                 elif len(fileCheck) > 2:
                     result = QMessageBox.warning(self, "주의", "파일명에 확장자명은 하나만 지정해주세요", QMessageBox.Ok)
                     return
-                else:
-                    result = QMessageBox.No
-                    self.txt_fileinfo.setText(f'[소스파일 : {file}]')
+                
+                self.le_fileInputPath.setText(file_path)
+                self.txt_fileinfo.setText(f'[소스파일 : {file_path}]')
+                self.dataOpt.inputfilePath = file_path
+                fileinfo = self.func_fileinfo(file_path) # [first_QC : fileinfo 함수 진입 순서 변경 2023.11.02]
 
                 if len(fileinfo) > 0:
                     self.dataOpt.ori_width = fileinfo['res_width']
                     self.dataOpt.ori_height = fileinfo['res_height']
                     self.dataOpt.frameRate = float(fileinfo["frame"])
                     self.dataOpt.duration = float(fileinfo["duration"])
-
                     self.txt_fileinfo.append(f'Video Codec : {fileinfo["video_codec"]}')
                     self.txt_fileinfo.append(f'bit rate : {fileinfo["bit_rate"]:.2f} Mb/s')
                     self.txt_fileinfo.append(f'Resolution : {str(fileinfo["res_width"])} x {str(fileinfo["res_height"])}')
@@ -298,19 +338,15 @@ class uiShow(QMainWindow, QWidget, form_class):
                         self.txt_fileinfo.append(f'Audio Codec : none')
                         self.txt_fileinfo.append(f'Audio Sample rate : none')
                 else:
-                    self.mCvtLog.error(f'파일정보오류 : {fileinfo}')
+                    self.mCvtLog.error(f'파일정보없음 : {fileinfo} {dir}/{file}')
             except ffmpeg.Error as e:
                 print(e.stderr, file=sys.stderr)
                 self.txt_fileinfo.setText(e.stderr)
                 self.mCvtLog.error(e.stderr)
-                #sys.exit(1)
+                pass
             except Exception as e:
-                self.mCvtLog.error(f'파일정보오류 : {e}')
-                return
-            finally:
-                if result == QMessageBox.Ok:
-                    self.mCvtLog.warning(f'파일경로 및 파일명 오류 {dir}/{file}')
-                    self.le_fileInputPath.clear()
+                self.mCvtLog.error(f'파일열기 실패 : {e}')
+                self.statusBar().showMessage(f'파일열기 실패')
                 pass
         else:
             self.statusBar().showMessage("파일열기 취소")
@@ -337,6 +373,7 @@ class uiShow(QMainWindow, QWidget, form_class):
                 self.statusBar().showMessage("파일저장 취소")
         except Exception as e:
             self.mCvtLog.error(e)
+            pass
 
     # play a video file
     def slot_previewer(self):
@@ -351,8 +388,9 @@ class uiShow(QMainWindow, QWidget, form_class):
                 asyncio.run(Happlay.mPlay(cmd)) # 단일 실행
             except Exception as e:
                 self.mCvtLog.error(f'Play error : {e}')
+                pass
             else:
-                self.mCvtLog.info(f'Play video input file : {input_cmd}')
+                self.mCvtLog.info(f'Play video input file : {cmd}')
         elif self.dataOpt.inputfilePath != "" and self.dataOpt.outputfilePath != "":    # 둘다 있는 경우   
             print(self.dataOpt.inputfilePath, self.dataOpt.outputfilePath)
             input_cmd = f'mplayer {self.dataOpt.inputfilePath} -xy 960 -loop 0 -geometry 10:50 -use-filename-title'
@@ -361,6 +399,7 @@ class uiShow(QMainWindow, QWidget, form_class):
                 asyncio.run(self.task_preview(inputCmd=input_cmd, outputCmd=output_cmd))    # 복수 실행
             except Exception as e:
                 self.mCvtLog.error(f'Play error : {e}')
+                pass
             else:
                 self.mCvtLog.info(f'Play video input file : {input_cmd}')
                 self.mCvtLog.info(f'Play video output file : {output_cmd}')
@@ -381,13 +420,6 @@ class uiShow(QMainWindow, QWidget, form_class):
             self.txt_fileinfo.append(f'')
             self.txt_fileinfo.append(f'변환파일위치 : {output_file}')
             self.mCvtLog.info(output_file)
-        # else:
-        #     if " " in self.dataOpt.outputfilePath:
-        #         self.statusBar().showMessage("저장할 파일에 공백을 제거해 주세요!")
-        #         return
-        #     elif not self.le_width.text():
-        #         self.statusBar().showMessage("가로해상도와 세로해상도를 입력하세요!")
-        #         return
 
         # 진행률 설정
         self.progress_bar.setMaximum(self.dataOpt.getMaxFrame())
@@ -406,6 +438,7 @@ class uiShow(QMainWindow, QWidget, form_class):
                 raise Exception(f'cmd 구문애러 : {cmd}')                
         except Exception as e:
             self.mCvtLog.error(f'변환오류 : {e}')
+            self.statusBar().showMessage(f'변환오류 : {e}')
             self.subProc.run = False
             print(f'변환오류 : {e}')
         else:
@@ -451,13 +484,16 @@ class uiShow(QMainWindow, QWidget, form_class):
             self.cb_aspertRatio.setEnabled(False)
             self.cbb_algorithm.setEnabled(False)
             self.cb_originalRes.setEnabled(True)
-            self.dataOpt.scaleAlgo = " "
+            self.dataOpt.scaleAlgo = "none" # [first_QC : 옵션 비활성화일때 알고리즘 'none' 변경 2023.11.02]
             self.dataOpt.scaleEnable = False
+            self.dataOpt.originalRes = True
         else:
             self.cb_aspertRatio.setEnabled(True)
             self.cbb_algorithm.setEnabled(True)
             self.cb_originalRes.setChecked(False)
             self.cb_originalRes.setEnabled(False)
+            self.dataOpt.originalRes = False
+            self.dataOpt.scaleAlgo = self.cbb_algorithm.currentText() # [first_QC : 옵션 활성화 전환시 선택된 알고리즘 적용 2023.11.02]
             self.dataOpt.scaleEnable = True
 
     # 종횡비 고정
@@ -481,9 +517,10 @@ class uiShow(QMainWindow, QWidget, form_class):
     # 코덱
     def slot_getOpt(self):
         self.dataOpt.cvtOpt = self.cbb_option.currentText()
-        if self.dataOpt.cvtOpt == "none":
+        if self.dataOpt.cvtOpt == "none":   
             self.statusBar().showMessage(f'코덱:{self.dataOpt.cvtOpt} 기본 h.264로 변환됩니다.')
-        self.statusBar().showMessage(f'코덱: {self.dataOpt.cvtOpt}')
+        else:   # [first_QC : 코덱 none 일때 아닐때 처리 변경 2023.11.02]
+            self.statusBar().showMessage(f'코덱: {self.dataOpt.cvtOpt}')
     
     # Scale 알고리즘
     def slot_getAlgoOpt(self):
@@ -588,31 +625,28 @@ class uiShow(QMainWindow, QWidget, form_class):
             proc = await asyncio.create_subprocess_exec(
                 *cmd_list,
                 stdout=asyncio.subprocess.PIPE, 
-                stderr=asyncio.subprocess.STDOUT
+                stderr=asyncio.subprocess.STDOUT,
             )
             self.subProc.pid = proc.pid
             self.subProc.run = True
             log = b''
-            while proc.returncode is None:
-                buf = await proc.stdout.read(100)
+            while proc.returncode is None:  # [first_QC : byte 단위로 한글을 끊어서 읽으면, UnicodeDecodeError 발생 2023.11.02]
+                buf = await proc.stdout.read(128)    
                 if not buf:
                     break
                 else:
-                    if 'frame' in buf.decode():
+                    if b'frame=' in buf:
                         frame = buf.decode().split(' ')
                         frame = [v for v in frame if v]
-                        if frame[0] == 'frame=':
-                            total_line = int(frame[1])
+                        index = self.find_listIndex(frame, 'frame', 1) # return -1 not found, 'frame' 다음 인덱스를 lookup
+                        if index > 0 and len(frame) != index:   # [first_QC : index 길이값이 list를 초과 error 처리 2023.11.02]    
+                            total_line = int(frame[index])
                             log = buf
-                    elif 'failed' in buf.decode():
-                        raise Exception(f'변환실패-{buf.decode()}')
-                    else:
-                        total_line += 1
-                    # self.progress_bar.setValue(int((total_line/100)*total_line))
+                    elif b'failed' in buf:
+                        raise Exception(f'변환실패-{buf}')
                     await self.update_progress_value(total_line)
-                # log += buf
-                # sys.stdout.write(buf.decode())
-                print(f'[{total_line}] [{buf.decode()}]')
+                print(f'[{total_line}] [{log}]')
+            log = self.cut_string(log.decode(), "frame", "L")
             result = subprocess.CompletedProcess(cmd, proc.returncode, stdout=log, stderr=b'')
         except subprocess.CalledProcessError as e:
             self.subProc.run = False
@@ -622,9 +656,12 @@ class uiShow(QMainWindow, QWidget, form_class):
             pass
         except Exception as e:
             self.subProc.run = False
+            self.mCvtLog.error(f'[Error] {e}')
             print(f'[Error] {e}')
-            self.statusBar().showMessage("변환실패!")
-            self.mCvtLog.error(e)
+            if 'UnicodeDecodeError' in e:
+                self.statusBar().showMessage("디코딩오류로 변환실패")
+            else:
+                self.statusBar().showMessage("변환실패")
             pass
         else:
             self.subProc.run = False

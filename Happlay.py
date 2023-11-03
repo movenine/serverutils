@@ -28,14 +28,16 @@ async def mPlay(cmd):
             stderr=asyncio.subprocess.PIPE)
         proc_log,_ = await proc.communicate()
         lines = proc_log.decode('utf-8')
-        line = lines.split('\r\n') # \r 문자로 구분 리스트
-        line = [v for v in line if v]  # 공백 제거한 리스트
+        line = lines.split('\r\n') 
+        line = [v for v in line if v]  
         mplayLog.info('\n'.join(line))
         await proc.wait()  
     except subprocess.CalledProcessError as e:
         mplayLog.error(e.output)
+        pass    # [first_QC : player error 로깅후 pass 변경 2023.11.02]
     except Exception as e:
         mplayLog.error(e)
+        pass    # [first_QC : player error 로깅후 pass 변경 2023.11.02]
 
 # if __name__ == '__main__':
 #     log_file_path = f'{os.getcwd()}\\Files'

@@ -151,13 +151,13 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Gulim'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#00007f;&quot;&gt;아래 Scale 옵션을 설정하세요&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#00007f;&quot;&gt;Scale 옵션을 활성화하며, 해상도 변경시 체크해 주세요.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="statusTip">
           <string/>
          </property>
          <property name="text">
-          <string>Scale 옵션 활성화 </string>
+          <string>Scale 활성화 </string>
          </property>
         </widget>
        </item>
@@ -255,11 +255,6 @@ p, li { white-space: pre-wrap; }
          <property name="modelColumn">
           <number>0</number>
          </property>
-         <item>
-          <property name="text">
-           <string>copy</string>
-          </property>
-         </item>
          <item>
           <property name="text">
            <string>hap</string>
