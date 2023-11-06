@@ -114,6 +114,7 @@ class uiShow(QMainWindow, QWidget, form_class):
             "<p><b>HAP Codec Convert</b><br><br>"
             "Copyright (C) 2023 leedg<br>"
             "Version : v1.0.0<br>"
+            "Build Date : 2023.11.03<br>"
             "Licence : <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a>"
             "<br><br>"
             "이 소프트웨어는 LGPLv2.1에 따라 FFmpeg 프로젝트의 라이브러리를 사용합니다.<br>"
