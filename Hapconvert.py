@@ -114,7 +114,7 @@ class uiShow(QMainWindow, QWidget, form_class):
             "<p><b>HAP Codec Convert</b><br><br>"
             "Copyright (C) 2023 leedg<br>"
             "Version : v1.0.0<br>"
-            "Build Date : 2023.11.03<br>"
+            "Build Date : 2023.11.20<br>"
             "Licence : <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a>"
             "<br><br>"
             "이 소프트웨어는 LGPLv2.1에 따라 FFmpeg 프로젝트의 라이브러리를 사용합니다.<br>"
@@ -201,10 +201,13 @@ class uiShow(QMainWindow, QWidget, form_class):
             self.mCvtLog.info(f'{dir}/{file}.opt 옵션파일 저장')
 
     #region private method 
-    ## 파일정보
-    # parameter : file path
-    # return : fileinfo of dict type
     def func_fileinfo(self, path):
+        """
+        args:
+            path : 파일경로
+        return:
+            파일정보를 dict 형태로 반환
+        """
         dic = dict()
         try:
             file_meta = ffmpeg.probe(path)
@@ -251,7 +254,15 @@ class uiShow(QMainWindow, QWidget, form_class):
             pass
 
         return dic
-    def find_listIndex(self, src_list, string, col):
+    def find_listIndex(self, src_list: list, string: str, col: int):
+        """
+        args:
+            src_list : 리스트 형태의 문자열 소스
+            string : 찾을 문자열
+            col : 인덱스 오프셋
+        return:
+            리스트 인덱스를 반환, 없으면 (-1)
+        """
         for i, s in enumerate(src_list):
             if string in s:
                 if col == 0:
@@ -259,7 +270,7 @@ class uiShow(QMainWindow, QWidget, form_class):
                 else:
                     return i + col
         return -1
-    def cut_string(self, src_string, target_string, direction):
+    def cut_string(self, src_string: str, target_string: str, direction: str):
         """
         args:
             src_string : 문자열 소스
@@ -275,7 +286,26 @@ class uiShow(QMainWindow, QWidget, form_class):
             else:
                 return src_string[:index + len(target_string)]
         return src_string
-
+    def extract_frame_number(self, src_string: str, start_string: str, end_string: str):
+        """
+        args:
+            src_string : 문자열 소스
+            start_string : 첫번째 문자 위치
+            end_string : 두번째 문자 위치
+        return:
+            문자사이의 값을 int 형으로 반환
+        """
+        start_index = src_string.find(start_string) + len(start_string)
+        end_index = src_string.find(end_string)
+        if start_index != end_index:
+            frame_number_str = src_string[start_index:end_index].strip()
+            # print(f'frame_number = [{frame_number_str}]')
+            if frame_number_str.isdecimal() == False:   # int 변환값이 아니면
+                return None 
+            else:
+                return int(frame_number_str)
+        else:
+            return None
     #endregion private method
     
     #region 버튼 시그널
@@ -637,12 +667,24 @@ class uiShow(QMainWindow, QWidget, form_class):
                     break
                 else:
                     if b'frame=' in buf:
-                        frame = buf.decode().split(' ')
-                        frame = [v for v in frame if v]
-                        index = self.find_listIndex(frame, 'frame', 1) # return -1 not found, 'frame' 다음 인덱스를 lookup
-                        if index > 0 and len(frame) != index:   # [first_QC : index 길이값이 list를 초과 error 처리 2023.11.02]    
-                            total_line = int(frame[index])
-                            log = buf
+                        frame = buf.decode()
+                        frame_number = self.extract_frame_number(frame, "frame=", "fps=")
+                        if frame_number != None:
+                            total_line = frame_number
+                        else:
+                            pass
+                        log = buf
+                        # frame = buf.decode().split(' ')
+                        # frame = [v for v in frame if v]
+                        # index = self.find_listIndex(frame, 'frame', 1) # return -1 not found, 'frame' 다음 인덱스를 lookup
+                        # if index > 0 and len(frame) != index:   # [first_QC : index 길이값이 list를 초과 error 처리 2023.11.02]
+                        #     if frame[index].isdecimal() == False:   # int 변환값이 아니면
+                        #         if '=' in frame[index-1]:
+                        #             frame_data = frame[index-1].split('=')
+                        #             if frame_data[1]
+                        #     else:
+                        #         total_line = int(frame[index])
+                        #     log = buf
                     elif b'failed' in buf:
                         raise Exception(f'변환실패-{buf}')
                     await self.update_progress_value(total_line)

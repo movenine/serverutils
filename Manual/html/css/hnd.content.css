@@ -110,13 +110,18 @@ span.rvts20
  font-family: 'consolas';
  color: #333333;
 }
-span.rvts21 /* Font Style */
+span.rvts21
+{
+ font-size: 11pt;
+ font-family: '한컴 고딕';
+}
+span.rvts22 /* Font Style */
 {
  font-family: 'Tahoma', 'Geneva', sans-serif;
  font-style: italic;
  color: #c0c0c0;
 }
-a.rvts22, span.rvts22 /* Font Style */
+a.rvts23, span.rvts23 /* Font Style */
 {
  font-family: 'Tahoma', 'Geneva', sans-serif;
  font-style: italic;

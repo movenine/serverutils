@@ -1,17 +1,15 @@
-import os
-import sys
-import qdarktheme
-import Hapconvert
+import os, sys, qdarktheme, Hapconvert, psutil
 from PyQt5 import QtWidgets, QtGui
+from win10toast import ToastNotifier
+from collections import Counter
 
 if getattr(sys, 'frozen', False):
     root_path = sys._MEIPASS
 else:
     root_path = os.getcwd()
 
-# main_icon_path = f'{os.getcwd()}\\resources\\main_icon.png'
-# hap_icon_path = f'{os.getcwd()}\\resources\\app_title_icon.png'
 main_icon_path = os.path.join(root_path, 'resources', 'main_icon.png')
+main_icon_ico_path = os.path.join(root_path, 'resources', 'main_icon.ico')
 hap_icon_path = os.path.join(root_path, 'resources', 'app_title_icon.png')
 
 class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
@@ -21,6 +19,7 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
     def __init__(self, icon, parent=None):
         QtWidgets.QSystemTrayIcon.__init__(self, icon, parent)
         self.setToolTip(f'CUDO LED Server Tools-v1.0.0')
+
 
         menu = QtWidgets.QMenu(parent)
         #Hap 코덱 변환 메뉴
@@ -83,15 +82,27 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
 def main(image):
     app = QtWidgets.QApplication(sys.argv)
     QtWidgets.QApplication.setQuitOnLastWindowClosed(False) # tray 아이템을 종료시 app 종료를 하지 않음
-    #app.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyqt5'))
     qdarktheme.setup_theme(theme="auto", corner_shape="sharp")
     app.setStyleSheet(qdarktheme.load_stylesheet())
     w = QtWidgets.QWidget()
     tray_icon = SystemTrayIcon(QtGui.QIcon(image), w)
     tray_icon.show()
-    tray_icon.showMessage('Cudo Communication', 'www.ailed.co.kr')
+    tray_icon.showMessage("This is CUDO's Server Utility", "www.ailed.co.kr")
     sys.exit(app.exec())
 
-
 if __name__ == '__main__':
-    main(main_icon_path)
+    apptray_name = "Utiltray.exe"
+    processes = [p.name() for p in psutil.process_iter()]
+    processes_cnt = Counter(processes)
+
+    if processes_cnt[apptray_name] > 1:
+        # 이미 실행 중인 경우
+        toast = ToastNotifier()
+        toast.show_toast(
+            title="Utiltray 알림",
+            msg="이미 실행중입니다.",
+            icon_path=main_icon_ico_path,
+            threaded=True
+        )
+    else:
+        main(main_icon_path)

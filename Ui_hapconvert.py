@@ -161,7 +161,7 @@ class Ui_MainWindow(object):
         self.line_2.setObjectName("line_2")
         self.gridLayout_2.addWidget(self.line_2, 9, 0, 1, 4)
         self.txt_fileinfo = QtWidgets.QTextEdit(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.txt_fileinfo.sizePolicy().hasHeightForWidth())
