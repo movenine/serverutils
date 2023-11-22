@@ -4,10 +4,9 @@
 코덱 변환은 ffmpeg 라이브러리를 활용하였다.
 
 ## Project Overview
-**언어**
+
 [![language](https://img.shields.io/badge/language-python_%7C_PyQt5-blue)]
-**진척도**
-[![project status](https://img.shields.io/badge/Tested-90%25-blue?color=green)](https://github.com/movenine/serverutils.git)
+[![project status](https://img.shields.io/badge/Tested-100%25-blue?color=green)](https://github.com/movenine/serverutils.git)
 
 ## Features
 
@@ -17,5 +16,22 @@
 - 변환파일 미리보기
 - 변환옵션 저장 및 불러오기
 
-## UI
+## Build & Install
+
+- Python 3.8.10 가상환경 생성
+- 패키지 설치 : pip install -r requirements.txt
+- 빌드 : pyinstaller Utiltray.spec
+- 빌드생성경로 : {project folder}\ServerUtils\dist\Utiltray_v100
+- 라이브러리 파일 : [ffmpeg](https://ffmpeg.org/download.html), [mplayer](https://www.mplayerhq.hu/design7/dload.html)
+- 환경변수 : C:\Program Files\ServerUtils\ `your_lib_folder` \ffmpeg\bin, C:\Program Files\ServerUtils\ `your_lib_folder` \MPlayer 
+- [inno setup complier](https://jrsoftware.org/isinfo.php)를 사용하여 라이브러리 폴더와 환경변수 설정이 포함된 Installer package 생성
+
+## Install folder configuration
+
+- `files` *.opt 옵션파일 저장폴더
+- `log` hapConvertLog.log, playerLog.log 로깅 폴더
+- `manual` html 형식의 메뉴얼 폴더
+- `resource` 아이콘 파일폴더
+- `Utiltray.exe` 실행파일
+- 기타 python 구동을 위한 파일
 
