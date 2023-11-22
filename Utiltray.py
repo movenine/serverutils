@@ -20,7 +20,6 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
         QtWidgets.QSystemTrayIcon.__init__(self, icon, parent)
         self.setToolTip(f'CUDO LED Server Tools-v1.0.0')
 
-
         menu = QtWidgets.QMenu(parent)
         #Hap 코덱 변환 메뉴
         app_encoder = menu.addAction("HAP코덱변환")

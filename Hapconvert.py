@@ -6,7 +6,7 @@ from dacite import from_dict
 from PyQt5.QtWidgets import *
 # from PyQt5.QtCore import *
 from PyQt5 import uic, QtGui, QtCore
-from tqdm import tqdm
+# from tqdm import tqdm
 from Applog import syslog as SL
 
 if getattr(sys, 'frozen', False):
