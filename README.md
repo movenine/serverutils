@@ -3,6 +3,11 @@
 서버에 설치되는 유틸리티 프로그램으로 HAP 코덱 변환 및 미리보기를 지원하는 툴킷이다.
 코덱 변환은 ffmpeg 라이브러리를 활용하였다.
 
+---
+![메인화면](https://github.com/movenine/serverutils/assets/57665081/91e55402-4c9b-42dc-8923-c0e3e8f80c13)
+
+---
+
 ## Project Overview
 
 [![language](https://img.shields.io/badge/language-python_%7C_PyQt5-blue)]
